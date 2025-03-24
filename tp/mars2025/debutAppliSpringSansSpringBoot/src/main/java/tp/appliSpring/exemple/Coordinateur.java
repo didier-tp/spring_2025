@@ -1,18 +1,28 @@
 package tp.appliSpring.exemple;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component //"coordinateur" par defaut
+//@Component("monCoordinateur")
 public class Coordinateur {
 	
-    @Autowired
+    @Autowired @Qualifier("V2")
 	private MonAfficheur monAfficheur=null; //référence vers afficheur à injecter
 
-	@Autowired
+	@Autowired @Qualifier("monCalculateurCarre")
 	private MonCalculateur monCalculateur=null;//référence vers calculateur à injecter
-	
-	
+
+	public Coordinateur() {
+		System.out.println("constructeur de Coordinateur avec monCalculateur="+monCalculateur);
+	}
+
+	@PostConstruct
+	public void init() {
+		System.out.println("init/@PostConstruct monCalculateur="+monCalculateur);
+	}
 
 	public void calculerEtAfficher() {
 		double x=4;
