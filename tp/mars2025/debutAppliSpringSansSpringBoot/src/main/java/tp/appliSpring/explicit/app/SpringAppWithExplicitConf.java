@@ -13,7 +13,7 @@ public class SpringAppWithExplicitConf {
 		//en fixant la valeur de la propriété spring.profiles.active ou bien spring.profiles.default
 
 		//System.setProperty("spring.profiles.active","maj"); //ou bien java ....-Dspring.profiles.active=maj
-		
+
 		System.setProperty("spring.profiles.default","maj"); //si pas déjà java ....-Dspring.profiles.default=maj
 															// ou équivalent plus prioritaire
 
