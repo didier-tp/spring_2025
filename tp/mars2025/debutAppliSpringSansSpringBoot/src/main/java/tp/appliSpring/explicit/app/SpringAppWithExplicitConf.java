@@ -12,6 +12,12 @@ public class SpringAppWithExplicitConf {
 		//Choisir éventuellement des profiles à activer AVANT l'initialisation du context spring:
 		//en fixant la valeur de la propriété spring.profiles.active ou bien spring.profiles.default
 
+		//System.setProperty("spring.profiles.active","maj"); //ou bien java ....-Dspring.profiles.active=maj
+		
+		System.setProperty("spring.profiles.default","maj"); //si pas déjà java ....-Dspring.profiles.default=maj
+															// ou équivalent plus prioritaire
+
+
 		ApplicationContext contextSpring = new AnnotationConfigApplicationContext(ExempleConfigExplicite.class);
 		//contextSpring représente un ensemble de composants pris en charge par spring
 		//et qui est initialisé selon une ou plusieurs classes de configuration.
