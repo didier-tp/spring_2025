@@ -31,7 +31,8 @@ public class MyPerfLogAspect {
 	//@Around("annotAffPointcut()")
 	//@Around("surPackageExemple() && annotAffPointcut()")
 	//@Around("annotLogExecutionTimePointcut()")
-	@Around("surPackageExemple() || surPackageService()")
+	//@Around("surPackageExemple() || surPackageService()")
+	@Around("(surPackageExemple() || surPackageService()) && annotLogExecutionTimePointcut()")
 	public Object doPerfLog(ProceedingJoinPoint pjp) throws Throwable {
 		System.out.println("<< trace == debut == " + pjp.getSignature().toLongString() + " <<");
 		/*for(Object a : pjp.getArgs()) { System.out.print(" arg:" + a ); }
