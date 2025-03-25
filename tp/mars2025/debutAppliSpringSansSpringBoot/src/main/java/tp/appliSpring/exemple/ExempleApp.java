@@ -14,6 +14,8 @@ public class ExempleApp {
 		//et qui est initialisé selon une ou plusieurs classes de configuration.
 		
 		//MonCalculateur monCalculateur = contextSpring.getBean(MonCalculateur.class);
+		//MonCalculateurCarre monCalculateur = contextSpring.getBean("monCalculateurCarre", MonCalculateurCarre.class);
+		//ne marche pas bien si aspect et proxy généré automatiquement
 		MonCalculateur monCalculateur = contextSpring.getBean("monCalculateurCarre", MonCalculateur.class);
 		System.out.println("resCalcul="+monCalculateur.calculer(4));//4*4=16.0 ou autre 
 

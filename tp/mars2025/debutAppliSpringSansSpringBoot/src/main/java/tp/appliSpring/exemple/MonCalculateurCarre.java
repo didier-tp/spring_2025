@@ -7,7 +7,7 @@ import tp.appliSpring.annotation.LogExecutionTime;
 public class MonCalculateurCarre implements MonCalculateur {
 
 	@Override
-	//@LogExecutionTime
+	@LogExecutionTime
 	public double calculer(double x) {
 		return x*x;
 	}
