@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 //@Component("monCoordinateur")
 public class Coordinateur {
 	
-    @Autowired @Qualifier("V2")
+    @Autowired //@Qualifier("V2")
 	private MonAfficheur monAfficheur=null; //référence vers afficheur à injecter
 
 	@Autowired @Qualifier("monCalculateurCarre")

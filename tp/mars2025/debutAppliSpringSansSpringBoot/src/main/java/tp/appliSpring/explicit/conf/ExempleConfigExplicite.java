@@ -1,12 +1,20 @@
 package tp.appliSpring.explicit.conf;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.core.io.WritableResource;
+import org.springframework.core.io.Resource;
 import tp.appliSpring.explicit.beans.*;
+
+import java.nio.charset.Charset;
 
 @Configuration
 @PropertySource("classpath:exemples.properties")
 public class ExempleConfigExplicite {
+
+    private static Logger logger = LoggerFactory.getLogger(ExempleConfigExplicite.class);
 
     //A faire en Tp:
     //phase 0 : faire fonctionner l'exemple tel quel
@@ -27,6 +35,16 @@ public class ExempleConfigExplicite {
 
     @Value("${preferences.suffixe:##}")
     private String monSuffixe;//="#";
+
+    @Value("file:data/ficA.txt") //to read in project root directory
+    private /*WritableResource*/ Resource fileATxtResource;
+
+    @Bean(name="contenuFicA")
+    public String contenuFicA() throws Exception {
+        String textFileContent =  fileATxtResource.getContentAsString(Charset.defaultCharset());
+        logger.info("textFileContent="+textFileContent);
+        return textFileContent;
+    }
 
     @Bean
     @Profile("!maj")
