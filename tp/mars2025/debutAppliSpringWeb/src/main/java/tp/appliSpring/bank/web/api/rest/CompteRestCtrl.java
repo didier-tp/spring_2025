@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tp.appliSpring.bank.core.model.Compte;
 import tp.appliSpring.bank.core.service.ServiceCompte;
+import tp.appliSpring.generic.exception.EntityNotFoundException;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class CompteRestCtrl {
 		this.serviceCompte = serviceCompte;
 	}
 
+	/*
 	//Get By ID
 	//V1 avec DTO et V3 (avec automatisme ExceptionHandler)
 	//declencher en mode GET avec
@@ -42,22 +44,31 @@ public class CompteRestCtrl {
 		return serviceCompte.searchById(numeroCompte);
 		//NB: l'objet retourné sera automatiquement converti au format json
 	}
+    */
 
 
-    /*
 	//V2 avec ResponseEntity<?> mais sans ExceptionHandler
 	//declencher en mode GET avec
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes/1 ou 2
 	@GetMapping("/{id}")
-	....
-   */
+	public ResponseEntity<Compte> getCompteById(@PathVariable("id") long numeroCompte) {
+        try {
+            Compte compte = serviceCompte.searchById(numeroCompte);
+			return ResponseEntity.ok(compte);
+        } catch (EntityNotFoundException e) {
+           // throw new RuntimeException(e);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); //404
+        }
+
+	}
+
 
 	//GET Multiple
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes?soldeMini=50
 	// .../rest/api-bank/v1/comptes?numClient=1
 	@GetMapping()
-	public List<Compte> getDevisesByCriteria(
+	public List<Compte> getComptesByCriteria(
 			@RequestParam(value="soldeMini",required=false) Double soldeMini,
 			@RequestParam(value="numClient",required=false) Long numClient) {
 		if(soldeMini!=null)
