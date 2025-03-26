@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import tp.appliSpring.bank.core.model.Compte;
 import tp.appliSpring.bank.core.service.ServiceCompte;
 
+import java.util.List;
+
 @RestController //@Component de type controller d'api rest
 @RequestMapping(value="/rest/api-bank/v1/comptes" , headers="Accept=application/json")
 public class CompteRestCtrl {
@@ -53,7 +55,18 @@ public class CompteRestCtrl {
 	//GET Multiple
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes?soldeMini=50
-	//....
+	// .../rest/api-bank/v1/comptes?numClient=1
+	@GetMapping()
+	public List<Compte> getDevisesByCriteria(
+			@RequestParam(value="soldeMini",required=false) Double soldeMini,
+			@RequestParam(value="numClient",required=false) Long numClient) {
+		if(soldeMini!=null)
+			return serviceCompte.searchWithMinimumBalance(soldeMini);
+		if(numClient!=null)
+			return serviceCompte.searchCustomerAccounts(numClient);
+		/*else*/
+			return serviceCompte.searchAll();
+	}
 
 	//appelé en mode POST
 	//avec url = http://localhost:8181/appliSpring/rest/api-bank/v1/comptes
