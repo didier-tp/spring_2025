@@ -72,10 +72,13 @@ public class ServiceCompteDirectImpl extends GenericServiceDirectImpl<Compte,Com
 	@Override
 	@Transactional()
 	public List<Compte> searchWithMinimumBalance(double soldeMini) {
+		/*
 		List<CompteEntity> compteEntityList = daoCompte.findBySoldeGreaterThanEqual(soldeMini);
 
 		return GenericMapper.MAPPER.map(compteEntityList,Compte.class);
 		//return myBankMapper.fromEntities(compteEntityList);
+		*/
+		return daoCompte.findAsCompteBySoldeGreaterThanEqual(soldeMini);
 	}
 
 	@Override

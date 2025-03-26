@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.Query;
+import tp.appliSpring.bank.core.model.Compte;
 import tp.appliSpring.bank.persistence.entity.CompteEntity;
 
 /*
@@ -36,6 +37,10 @@ public interface CompteRepository extends JpaRepository<CompteEntity,Long>{
 	//car on a respecter la convention de nom de methode
 	//findBy+Solde+GreaterThanEqual avec Compte.solde qui existe
 	List<CompteEntity> findBySoldeGreaterThanEqual(double soldeMini);
+
+	//PROJECTION JPA/HIBERNATE (SELECT NEW) directe vers DTO sur requête
+	@Query("SELECT new tp.appliSpring.bank.core.model.Compte(c.numero,c.label,c.solde) FROM CompteEntity c WHERE c.solde >= ?1")
+	List<Compte> findAsCompteBySoldeGreaterThanEqual(double soldeMini);
 
 	List<CompteEntity> findBySoldeBetween(double soldeMini,double soldeMaxi);
 
