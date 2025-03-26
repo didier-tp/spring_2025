@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tp.appliSpring.bank.core.model.Compte;
 import tp.appliSpring.bank.core.service.ServiceCompte;
+import tp.appliSpring.bank.persistence.entity.CompteEntity;
+import tp.appliSpring.bank.persistence.repository.CompteRepository;
 import tp.appliSpring.generic.exception.EntityNotFoundException;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 @RequestMapping(value="/rest/api-bank/v1/comptes" , headers="Accept=application/json")
 public class CompteRestCtrl {
 
-	/*
+/*
 	//Code potentiellement en erreur à ne pas reproduire:
 	@Autowired
 	private CompteRepository compteRepository;
@@ -24,7 +26,7 @@ public class CompteRestCtrl {
 		return compteRepository.findById( numeroCompte).get();
 		//NB: plantage si pas de @JsonIgnore et généralement sans_DTO = très mauvaise pratique
 	}
-    */
+*/
 
 
 	private ServiceCompte serviceCompte;
@@ -34,7 +36,7 @@ public class CompteRestCtrl {
 		this.serviceCompte = serviceCompte;
 	}
 
-	/*
+
 	//Get By ID
 	//V1 avec DTO et V3 (avec automatisme ExceptionHandler)
 	//declencher en mode GET avec
@@ -44,9 +46,9 @@ public class CompteRestCtrl {
 		return serviceCompte.searchById(numeroCompte);
 		//NB: l'objet retourné sera automatiquement converti au format json
 	}
-    */
 
 
+    /*
 	//V2 avec ResponseEntity<?> mais sans ExceptionHandler
 	//declencher en mode GET avec
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes/1 ou 2
@@ -59,8 +61,7 @@ public class CompteRestCtrl {
            // throw new RuntimeException(e);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); //404
         }
-
-	}
+	}*/
 
 
 	//GET Multiple
