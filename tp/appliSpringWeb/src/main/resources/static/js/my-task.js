@@ -4,9 +4,9 @@ var stompClient = null;
 function setConnected(connected) {
 	document.getElementById('connect').disabled = connected;
 	document.getElementById('disconnect').disabled = !connected;
-	document.getElementById('conversationDiv').style.visibility
+	document.getElementById('whenConnectedDiv').style.visibility
 		= connected ? 'visible' : 'hidden';
-	document.getElementById('response').innerHTML = '';
+	document.getElementById('taskListUl').innerHTML = '';
 }
 
 function connect() {
@@ -23,7 +23,7 @@ function connect() {
 		});
 		
 		stompClient.send("/app/task", {},
-		                  JSON.stringify({ type: "JOIN" , sender: from, content: "is connected" }));
+		                  JSON.stringify({ type: "JOIN" , sender: from }));
 	});
 }
 
@@ -31,23 +31,33 @@ function disconnect() {
 	let from = document.getElementById('from').value;
 	if (stompClient != null) {
 		stompClient.send("/app/task", {},
-		                  JSON.stringify({ type: "LEAVE" , sender: from, content: "is disconnected" }));
+		                  JSON.stringify({ type: "LEAVE" , sender: from }));
 		stompClient.disconnect();
 	}
 	setConnected(false);
 	console.log("Disconnected");
 }
 
-function sendMessage() {
+function sendDoneMessage() {
 	let from = document.getElementById('from').value;
-	let text = document.getElementById('text').value;
+	let taskIdToComplete = document.getElementById('taskIdToComplete').value;
+	let doneTaskResponse = document.getElementById('doneTaskResponse').value;
 	stompClient.send("/app/task", {},
-		JSON.stringify({ type: "CHAT" , sender: from, content: text /* , time : null */}));
+		JSON.stringify({ type: "DONE_TASK" , sender: from,
+		                task: { numero : taskIdToComplete ,
+		                       author: from ,
+		                       response : doneTaskResponse } }));
 }
 
 function showMessageOutput(messageOutput) {
-	var response = document.getElementById('response');
-	var li = document.createElement('li');
-	li.innerHTML="<b>"+messageOutput.sender + "</b> :<i> "+ messageOutput.content + "</i> (" + messageOutput.time + ")";
-	response.appendChild(li);
+	let msg = document.getElementById('msg');
+	let response = document.getElementById('taskListUl');
+	let li = document.createElement('li');
+	msg.innerHTML="<b>"+messageOutput.message + "</b>";
+	for(task of messageOutput.tasks) {
+        let li = document.createElement('li');
+        li.innerHTML="<b>"+JSON.stringify(task) +"</b>" ;
+        response.appendChild(li);
+    }
+
 }

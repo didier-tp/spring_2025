@@ -9,15 +9,20 @@
     <body onload="disconnect()">
         <div>
             <div>
-                sender/from:<input type="text" id="from" placeholder="Choose a nickname"/> <br />
+                sender/from/author:<input type="text" id="from" placeholder="your name"/> <br />
                 <button id="connect" onclick="connect();">Connect</button>
                 <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
             </div>
             <hr />
-            <div id="conversationDiv">
-                message:<input type="text" id="text" placeholder="Write a message..."/>
-                <button id="sendMessage" onclick="sendMessage();">Send</button>
-                <ul id="response"></ul>
+            <div id="whenConnectedDiv">
+                <span id="msg"></span> <br/>
+                <hr/>
+                numero/taskId to complete:<input type="text" id="taskIdToComplete" /> <br/>
+                response (done action):<input type="text" id="doneTaskResponse" />
+                <button id="completeTask" onclick="sendDoneMessage();">Complete task</button>
+                <hr/>
+                <h3>list of tasks</h3>
+                <ul id="taskListUl"></ul>
             </div>
         </div>
 
