@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import tp.appliSpring.bank.core.model.Compte;
 import tp.appliSpring.bank.core.service.ServiceCompte;
+import tp.appliSpring.generic.exception.EntityNotFoundException;
 
 
 @WebMvcTest(controllers = { CompteRestCtrl.class } ,
@@ -40,8 +41,43 @@ public class TestCompteRestCtrlWithServiceMockWithoutSecurity {
         Mockito.reset(compteService);
     }
 
-    //@Test //à lancer sans le profile withSecurity
+    @Test //à lancer sans le profile withSecurity
     public void testComptesDuClient1WithMockOfCompteService() {
-        // a coder en TP
+        //préparation du mock (qui sera utilisé en arrière plan du contrôleur rest à tester):
+        List<Compte> comptes = new ArrayList<>();
+        comptes.add(new Compte(1L, "compteA", 40.0));
+        comptes.add(new Compte(2L, "compteB", 90.0));
+        Mockito.when(compteService.searchCustomerAccounts(1L)).thenReturn(comptes);
+        try {
+            MvcResult mvcResult =
+                    mvc.perform(get("/rest/api-bank/v1/comptes?numClient=1")
+                                    .contentType(MediaType.APPLICATION_JSON))
+                            .andExpect(status().isOk())
+                            .andExpect(jsonPath("$", hasSize(2)))
+                            .andExpect(jsonPath("$[0].label", is("compteA")))
+                            .andExpect(jsonPath("$[1].solde", is(90.0)))
+                            .andReturn();
+            System.out.println(">>>>>>>>> jsonResult=" + mvcResult.getResponse().getContentAsString());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @Test //à lancer sans le profile withSecurity
+    public void testComptesDuClientInexistantWithMockOfCompteService() {
+        //préparation du mock (qui sera utilisé en arrière plan du contrôleur rest à tester):
+        Mockito.when(compteService.searchById(123456789L))
+                .thenThrow(new EntityNotFoundException("compte inexistant avec num=123456789"));
+        try {
+            MvcResult mvcResult =
+                    mvc.perform(get("/rest/api-bank/v1/comptes/123456789")
+                                    .contentType(MediaType.APPLICATION_JSON))
+                            .andExpect(status().is(404))
+                            .andReturn();
+            System.out.println(">>>>>>>>> http response status=" + mvcResult.getResponse().getStatus());
+            System.out.println(">>>>>>>>> jsonResult=" + mvcResult.getResponse().getContentAsString());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

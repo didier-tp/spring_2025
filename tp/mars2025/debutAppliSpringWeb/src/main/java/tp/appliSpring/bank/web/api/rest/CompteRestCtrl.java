@@ -1,5 +1,6 @@
 package tp.appliSpring.bank.web.api.rest;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import tp.appliSpring.bank.core.model.Compte;
 import tp.appliSpring.bank.core.service.ServiceCompte;
 import tp.appliSpring.bank.persistence.entity.CompteEntity;
 import tp.appliSpring.bank.persistence.repository.CompteRepository;
+import tp.appliSpring.bank.web.api.dto.CompteToCreate;
 import tp.appliSpring.generic.exception.EntityNotFoundException;
 
 import java.net.URI;
@@ -50,7 +52,7 @@ public class CompteRestCtrl {
 	}
 
 
-    /*
+/*
 	//V2 avec ResponseEntity<?> mais sans ExceptionHandler
 	//declencher en mode GET avec
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes/1 ou 2
@@ -63,8 +65,8 @@ public class CompteRestCtrl {
            // throw new RuntimeException(e);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); //404
         }
-	}*/
-
+	}
+*/
 
 	//GET Multiple
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes
@@ -87,7 +89,7 @@ public class CompteRestCtrl {
 	//avec dans la partie "body" de la requête
 	// { "numero" : null , "label" : "comptequiVaBien" , "solde" : 50.0 }
 	@PostMapping("")
-	public ResponseEntity<?> postCompte(/*@Valid*/ @RequestBody Compte obj) {
+	public ResponseEntity<?> postCompte(@Valid @RequestBody CompteToCreate obj) {
 		Compte savedObj = serviceCompte.create(obj); //avec id auto_incrémenté
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()

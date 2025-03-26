@@ -37,6 +37,7 @@ public class RestResponseEntityExceptionHandler
 		return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMsg));
 	}
 
+
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
