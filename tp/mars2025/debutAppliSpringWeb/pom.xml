@@ -10,10 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>tp</groupId>
-	<artifactId>appliSpringWeb</artifactId>
+	<artifactId>debutAppliSpringWeb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>appliSpringWeb</name>
-	<description>Spring Boot App avec SpringMvc , api-rest</description>
+	<name>debutAppliSpringWeb</name>
+	<!-- <packaging>war</packaging> -->
+	<description>Spring Boot App (avec partie web)</description>
 	<properties>
 		<java.version>17</java.version>
 		<mapstruct.version>1.6.2</mapstruct.version>
@@ -21,6 +22,7 @@
 	</properties>
 	<dependencies>
 
+		<!-- partie optionnelle (pour dernier Tp) -->
 		<dependency>
 			<groupId>org.example</groupId>
 			<artifactId>mysecurity-autoconfigure</artifactId>
@@ -32,25 +34,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-		</dependency>
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-websocket</artifactId>
-		</dependency>
-
-		<!-- partie thymeleaf -->
+		<!-- partie secondaire thymeleaf -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -59,7 +48,6 @@
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
-
 		<!-- partie standalone JWT (sans oauth2)) -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -73,18 +61,12 @@
 		</dependency>
 
 		<!-- partie  oauth2 -->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 
 		<!-- autres parties  -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -121,26 +103,11 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>${mapstruct.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct-processor</artifactId>
-			<version>${mapstruct.version}</version>
-			<optional>true</optional>
-		</dependency>
-
 		<!-- NB: lombok nécessite idéalement un plugin intelliJ ou plugin eclipse
 		pour que les getter/setter générés soient bien vus par l'IDE
 		IntelliJ installe automatiquement le pluginLombok
@@ -151,6 +118,12 @@
 			rédémarrer eclipse 
 		    project clean
 		-->
+
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
 		<!-- POUR MAPSTRUCT dans eclipse , si nécessaire :
 		1) installer le plugin m2e-apt via Help / Eclipse marketPlace
 		2) project/properties .../
@@ -158,7 +131,7 @@
 			/enable specific
 			/ automatically configure JDT APT
 		-->
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -167,8 +140,9 @@
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
+	    <finalName>${project.artifactId}</finalName>
 		<plugins>
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -183,7 +157,6 @@
 							<artifactId>lombok</artifactId>
 							<version>1.18.36</version>
 						</path>
-						<!-- Mapstruct should follow the lombok path(s) -->
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
@@ -192,6 +165,7 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+			-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

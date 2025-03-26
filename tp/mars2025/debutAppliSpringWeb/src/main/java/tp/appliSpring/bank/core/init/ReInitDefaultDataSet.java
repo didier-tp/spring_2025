@@ -1,19 +1,18 @@
 package tp.appliSpring.bank.core.init;
 
-import jakarta.annotation.PostConstruct;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import jakarta.annotation.PostConstruct;
 import tp.appliSpring.bank.core.model.Client;
-import tp.appliSpring.bank.core.model.Compte;
-import tp.appliSpring.bank.core.model.Operation;
-import tp.appliSpring.bank.core.model.Task;
 import tp.appliSpring.bank.core.service.ServiceClient;
 import tp.appliSpring.bank.core.service.ServiceCompte;
 import tp.appliSpring.bank.core.service.ServiceOperation;
-import tp.appliSpring.bank.core.service.ServiceTask;
-
-import java.util.Date;
+import tp.appliSpring.bank.core.model.Compte;
+import tp.appliSpring.bank.core.model.Operation;
 
 @Component
 @Profile("reInit")
@@ -27,9 +26,6 @@ public class ReInitDefaultDataSet {
 
 	@Autowired
 	ServiceClient serviceClient;
-
-	@Autowired
-	ServiceTask serviceTask;
 	
 	@PostConstruct
 	public void intialiserJeuxDeDonnees() {
@@ -52,9 +48,7 @@ public class ReInitDefaultDataSet {
 		serviceCompte.fixerProprietaireCompte(cptC.getNumero(),client2.getNumero());
 		serviceCompte.fixerProprietaireCompte(cptD.getNumero(),client2.getNumero());
 
-		serviceTask.create(new Task(null,"devinette_1" , "quel animal a jamais soif ?"));//"zebu?"
-		serviceTask.create(new Task(null,"devinette_2" , "qui est qui est jaune et qui attend ?"));//"Jonathan?"
-		serviceTask.create(new Task(null,"devinette_3" , "racine carre de 9 ?"));//"3?"
+
 	}
 
 }

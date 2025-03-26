@@ -1,0 +1,20 @@
+package tp.appliSpring.util.client.ws_call;
+
+import org.junit.jupiter.api.Test;
+
+
+public class TestWsCall {
+
+    @Test
+    public void test1(){
+        WsCallWithRestClient.testRestClientGetZippopotam();
+
+        //WsCallWithRestClient.testRestClientGetDevises();
+        //WsCallWithRestClient.testRestClientDeleteDevise();
+        //WsCallWithRestClient.testRestClientPostDevise();
+
+        //System.out.println("res of fetchtoken() = " + WsCallWithRestClient.fetchToken() );
+        //WsCallWithRestClient.testRestClientPutDeviseWithSecurity();
+        //WsCallWithRestClient.testRestClientPutCompteWithSecurity();
+    }
+}

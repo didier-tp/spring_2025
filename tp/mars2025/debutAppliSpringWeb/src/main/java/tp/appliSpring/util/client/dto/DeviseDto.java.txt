@@ -1,0 +1,23 @@
+package tp.appliSpring.util.client.dto;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+
+/*
+https://www.d-defrance.fr/tp/devise-api/v1/public/devises
+ */
+@Getter @Setter @ToString @NoArgsConstructor
+public class DeviseDto {
+    private String code;
+    private String name;
+    private Double change;
+
+    public DeviseDto(String code, String name, Double change) {
+        this.code = code;
+        this.name = name;
+        this.change = change;
+    }
+}
