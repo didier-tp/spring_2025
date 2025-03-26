@@ -34,8 +34,11 @@ public class ServiceOperationDirectImpl implements ServiceOperation {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Operation> searchByCompte(long numCpt) {
-        CompteEntity compteEntity = daoCompte.findWithOperations(numCpt);
+       // CompteEntity compteEntity = daoCompte.findWithOperations(numCpt);
+        CompteEntity compteEntity = daoCompte.findById(numCpt).get();
+        compteEntity.getOperations().size();// boucle interne automatique (lazy loading différé)
         return GenericMapper.MAPPER.map(compteEntity.getOperations(),Operation.class);
     }
 }
