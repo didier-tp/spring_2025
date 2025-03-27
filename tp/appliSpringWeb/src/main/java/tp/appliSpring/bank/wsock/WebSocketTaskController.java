@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import tp.appliSpring.bank.core.model.Task;
 import tp.appliSpring.bank.core.service.ServiceTask;
+import tp.appliSpring.generic.exception.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +21,6 @@ public class WebSocketTaskController {
 	private ServiceTask serviceTask;
 
 	private List<Task> lastTasksList = new ArrayList<Task>();
-
 	private String lastMessage = "";
 
 	public void updateDoneTask(TaskMessage doneTaskMessage) {
@@ -28,21 +28,24 @@ public class WebSocketTaskController {
 		long numero = partialDoneTask.getNumero();
 		String author = partialDoneTask.getAuthor();
 		String doneTaskResponse = partialDoneTask.getResponse();
-		Task task = serviceTask.searchById(numero);
-		task.setResponse(doneTaskResponse);
-		task.setAuthor(author);
-		task.setTimestamp(new Date());
-		serviceTask.update(task);
-		this.lastTasksList=serviceTask.searchAll();
-		this.lastMessage="Task Done by "+author + " with numero=" + numero;
-	}
+        try {
+            Task task = serviceTask.searchById(numero);
+            task.setResponse(doneTaskResponse);
+            task.setAuthor(author);
+            task.setTimestamp(new Date());
+            serviceTask.update(task);
+            this.lastMessage="Task Done by "+author + " with numero=" + numero;
+        } catch (EntityNotFoundException e) {
+			this.lastMessage="WrongTask Done by "+author + " with non existing numero=" + numero;
+        }
+    }
 
 	public void newTask(TaskMessage newTaskMessage) {
 		Task partialNewTask = newTaskMessage.getTask();
-		long numero = 0; //partialDoneTask.getNumero();
-	    String author =""; //...
-		this.lastTasksList=serviceTask.searchAll();
-		this.lastMessage="New Task created by "+author + " with numero=" + numero;
+	    String sender = newTaskMessage.getSender();
+		Task savedTask = serviceTask.create(partialNewTask);
+		long numero = savedTask.getNumero();
+		this.lastMessage="New Task created by "+sender + " with numero=" + numero;
 	}
 
 	@MessageMapping("/task") //input message received from /chat
@@ -52,20 +55,17 @@ public class WebSocketTaskController {
 		switch(taskMessage.getType()) {
 			case "NEW_TASK":
 				newTask(taskMessage);
-				taskListMessage.setTasks(this.lastTasksList);
-				taskListMessage.setMessage(lastMessage);
 				break;
 			case "DONE_TASK":
 				updateDoneTask(taskMessage);
-				taskListMessage.setTasks(this.lastTasksList);
-				taskListMessage.setMessage(lastMessage);
 				break;
 			default:
 				//JOIN or LEAVE:
-				this.lastTasksList=serviceTask.searchAll();
-				taskListMessage.setTasks(this.lastTasksList);
-				taskListMessage.setMessage(taskMessage.getSender() + " : " + taskMessage.getType());
+				this.lastMessage=taskMessage.getSender() + " : " + taskMessage.getType();
 		}
+		this.lastTasksList=serviceTask.searchAll();
+		taskListMessage.setTasks(this.lastTasksList);
+		taskListMessage.setMessage(lastMessage);
 		return taskListMessage;
 	}
 

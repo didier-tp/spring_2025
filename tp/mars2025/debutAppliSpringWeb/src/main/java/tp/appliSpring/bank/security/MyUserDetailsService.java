@@ -54,9 +54,13 @@ public class MyUserDetailsService implements UserDetailsService {
 			try {
 				Long numClient = Long.parseLong(username.substring(7));
 				Client customer = serviceCustomer.searchById(numClient);
-
+				password = customer.getPassword();//mot de passe déjà crypté en base
 
 				//PARTIE de CODE a COMPLETER EN TP
+				authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+				authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+				authorities.add(new SimpleGrantedAuthority("ROLE_CLIENT"));
+				userDetails = new User(username, password, authorities);
 
 			} catch (Exception e) {
 				//e.printStackTrace();

@@ -56,7 +56,6 @@ function sendNewMessage() {
 	stompClient.send("/app/task", {},
 		JSON.stringify({ type: "NEW_TASK" , sender: from,
 		                task: { title : titleNewTask ,
-		                       author: from ,
 		                       request : requestNewTask } }));
 }
 

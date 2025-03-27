@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tp.appliSpring.bank.core.model.Compte;
@@ -109,6 +110,7 @@ public class CompteRestCtrl {
 	//avec dans la partie "body" de la requête
 	// { "numero" : 1 , "label" : "libelleModifie" , "solde" : 120.0  }
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('CUSTOMER') or hasAuthority('SCOPE_resource.write')") //pour verifier "ROLE_CUSTOMER"
 	public ResponseEntity<Compte> putCompte(@RequestBody Compte compte, @PathVariable("id") Long idToUpdate) {
 		compte.setNumero(idToUpdate);
 		Compte compteMisAJour = serviceCompte.update(compte);
@@ -118,6 +120,7 @@ public class CompteRestCtrl {
 
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes/1 ou 2  (DELETE)
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('CUSTOMER') or hasAuthority('SCOPE_resource.delete')")
 	public ResponseEntity<?> deleteCompteByCode(@PathVariable("id")Long numero){
 		serviceCompte.removeById(numero);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
