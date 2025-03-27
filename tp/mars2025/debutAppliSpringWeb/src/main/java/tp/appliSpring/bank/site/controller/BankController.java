@@ -166,5 +166,16 @@ public class BankController {
 
 
 	//A faire en Tp , virement avec 2 comptes du même client
+	@RequestMapping("doVirement")
+	public String doVirement(Model model , @ModelAttribute("virement") VirementForm virementForm) {
+		this.serviceCompte.transfer(virementForm.getMontant(),
+									virementForm.getNumCptDeb(),
+				                    virementForm.getNumCptCred());
+		//réactialiser listes des comptes (avec nouveaux soldes)
+		Long numClient=(Long)model.getAttribute("numClient");
+		List<Compte> listeComptes = serviceCompte.searchCustomerAccounts(numClient);
+		model.addAttribute("listeComptes", listeComptes);
+		return "comptes"; //aiguiller sur la vue "comptes" avec nouvelles valeurs des soldes
+	}
 
 }
