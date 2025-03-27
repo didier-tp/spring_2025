@@ -12,12 +12,12 @@
 		<label class="simpleAlign">numCptDeb:</label>
 		<!-- <input type="text" name="numCptDeb" th:field="*{numCptDeb}" /><br/> -->
 		<select th:field="*{numCptDeb}" >
-			<option th:each ="c : ${listeComptes}" th:value="${c.numero}" th:utext="${c.numero}"></option>
+			<option th:each ="c : ${listeComptes}" th:value="${c.numero}" th:utext="${c.numero} + ' - ' + ${c.label} + ' : ' + ${c.solde}">></option>
 		</select> <br/>
 		<label class="simpleAlign">numCptCred:</label>
 		<!-- <input type="text" name="numCptCred" th:field="*{numCptCred}" /><br/> -->
 		<select th:field="*{numCptCred}" >
-			<option th:each ="c : ${listeComptes}" th:value="${c.numero}" th:utext="${c.numero}"></option>
+			<option th:each ="c : ${listeComptes}" th:value="${c.numero}" th:utext="${c.numero} + ' - ' + ${c.label} + ' : ' + ${c.solde}"></option>
 		</select> <br/>
 		<input	type="submit" value="effectuer virement" /> <br />
 	</form>
