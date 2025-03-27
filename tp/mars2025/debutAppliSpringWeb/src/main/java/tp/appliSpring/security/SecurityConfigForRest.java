@@ -82,7 +82,15 @@ public class SecurityConfigForRest {
 // VERSION SANS MyPermissionConfigurer
 	private HttpSecurity restFilterChainBuilder(HttpSecurity http) throws Exception {
 
-		return http.securityMatcher("/rest/**");
+		return http.securityMatcher("/rest/**")
+				.authorizeHttpRequests(
+						auth -> auth.requestMatchers("/rest/api-auth/v1/standalone-jwt-auth").permitAll()
+								.requestMatchers(HttpMethod.GET , "/rest/api-bank/v1/comptes/**").permitAll()
+								.requestMatchers("/rest/**").authenticated()
+				)
+				.cors( Customizer.withDefaults())
+				.sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.csrf( csrf -> csrf.disable() );
 
 		/* CODE A COMPLETER EN TP
 		  avec :
