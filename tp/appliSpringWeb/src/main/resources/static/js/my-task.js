@@ -49,15 +49,27 @@ function sendDoneMessage() {
 		                       response : doneTaskResponse } }));
 }
 
+function sendNewMessage() {
+	let from = document.getElementById('from').value;
+	let titleNewTask = document.getElementById('titleNewTask').value;
+	let requestNewTask = document.getElementById('requestNewTask').value;
+	stompClient.send("/app/task", {},
+		JSON.stringify({ type: "NEW_TASK" , sender: from,
+		                task: { title : titleNewTask ,
+		                       author: from ,
+		                       request : requestNewTask } }));
+}
+
 function showMessageOutput(messageOutput) {
 	let msg = document.getElementById('msg');
-	let response = document.getElementById('taskListUl');
-	let li = document.createElement('li');
+	let taskListUl = document.getElementById('taskListUl');
+	taskListUl.innerHTML = '';
 	msg.innerHTML="<b>"+messageOutput.message + "</b>";
 	for(task of messageOutput.tasks) {
         let li = document.createElement('li');
-        li.innerHTML="<b>"+JSON.stringify(task) +"</b>" ;
-        response.appendChild(li);
+        let subHtmlTask = task.response?"<b>"+JSON.stringify(task) +"</b>":JSON.stringify(task);
+        li.innerHTML= subHtmlTask;
+        taskListUl.appendChild(li);
     }
 
 }
