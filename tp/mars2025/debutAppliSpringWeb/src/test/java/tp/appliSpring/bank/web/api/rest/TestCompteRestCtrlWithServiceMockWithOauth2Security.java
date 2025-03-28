@@ -6,14 +6,16 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import tp.appliSpring.bank.core.model.Compte;
 import tp.appliSpring.bank.core.service.ServiceCompte;
+import tp.appliSpring.security.SecurityConfigForRest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = { CompteRestCtrl.class } )
 @ActiveProfiles({"withSecurity"})
+@Import(SecurityConfigForRest.class)
 //NB: @WebMvcTest  without service layer , service must be mocked !!!
 public class TestCompteRestCtrlWithServiceMockWithOauth2Security {
     @Autowired
@@ -45,5 +48,27 @@ public class TestCompteRestCtrlWithServiceMockWithOauth2Security {
         Mockito.reset(compteService);
     }
 
-    //...
+    @Test //à lancer sans le profile withSecurity avec @PreAuthorize("hasRole('CUSTOMER')")
+    //@WithMockUser(username = "user1" , roles = {"USER" })
+    @WithMockUser(username = "client_1" , roles = {"CUSTOMER" })
+    public void testComptesDuClient1WithMockOfCompteService() {
+        //préparation du mock (qui sera utilisé en arrière plan du contrôleur rest à tester):
+        List<Compte> comptes = new ArrayList<>();
+        comptes.add(new Compte(1L, "compteA", 40.0));
+        comptes.add(new Compte(2L, "compteB", 90.0));
+        Mockito.when(compteService.searchCustomerAccounts(1L)).thenReturn(comptes);
+        try {
+            MvcResult mvcResult =
+                    mvc.perform(get("/rest/api-bank/v1/comptes?numClient=1")
+                                    .contentType(MediaType.APPLICATION_JSON))
+                            .andExpect(status().isOk())
+                            .andExpect(jsonPath("$", hasSize(2)))
+                            .andExpect(jsonPath("$[0].label", is("compteA")))
+                            .andExpect(jsonPath("$[1].solde", is(90.0)))
+                            .andReturn();
+            System.out.println(">>>>>>>>> jsonResult=" + mvcResult.getResponse().getContentAsString());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }

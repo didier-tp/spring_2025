@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /*
 V1 with @WebMvcTest
+avec   @WithMockUser nécessitant spring-security-test dans le pom.xml
  */
 
 @WebMvcTest(controllers = { HelloRestCtrl.class } )
