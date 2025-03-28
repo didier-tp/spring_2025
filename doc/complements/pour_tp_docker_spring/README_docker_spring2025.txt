@@ -17,10 +17,24 @@ java -jar ./target/debutAppliSpringWeb.jar
 pour construire image docker (via le fichier Dockerfile à la racine du projet)
 docker build -t tp/applispring .
 
+=====
+pour construire image docker via maven et springBoot :
+mvn spring-boot:build-image -DskipTests
+
 =======
 démarrer container docker depuis l'image:
 docker run -d -p 8181:8181 --name applispring-container tp/applispring
 docker container ls
-http://localhost:8181/appliSpringWeb
+http://localhost:8181/appliSpring dans navigateur
+curl http://localhost:8181/appliSpring
+----
+docker stop applispring-container
+docker container ls -a
+docker rm applispring-container
+docker container ls -a
+
+===========
+NB: utiliser docker compose si besoin de démarrer container MySQL ou postgres en plus ….
+
 
 
