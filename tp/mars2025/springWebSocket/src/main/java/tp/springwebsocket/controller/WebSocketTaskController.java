@@ -4,6 +4,7 @@ package tp.springwebsocket.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import tp.springwebsocket.model.Task;
@@ -18,6 +19,9 @@ import java.util.List;
 
 @Controller
 public class WebSocketTaskController {
+
+	@Autowired
+	private SimpMessagingTemplate stompTemplate;
 
 	@Autowired
 	private ServiceTask serviceTask;
@@ -58,8 +62,8 @@ public class WebSocketTaskController {
 	}
 
 	@MessageMapping("/task") //input message received from /task
-	@SendTo("/topic/tasks") //output message pubish to /topic/tasks
-	public TaskListMessage send(TaskMessage taskMessage) throws Exception {
+	//@SendTo("/topic/tasks") //output message pubish to /topic/tasks
+	public /*TaskListMessage*/ void  send(TaskMessage taskMessage) throws Exception {
 	    TaskListMessage taskListMessage= new TaskListMessage();
 		switch(taskMessage.getType()) {
 			case "NEW_TASK":
@@ -75,7 +79,8 @@ public class WebSocketTaskController {
 		this.lastTasksList=serviceTask.searchAll();
 		taskListMessage.setTasks(this.lastTasksList);
 		taskListMessage.setMessage(lastMessage);
-		return taskListMessage;
+		//return taskListMessage;
+		stompTemplate.convertAndSend("/topic/tasks" , taskListMessage);
 	}
 
 }
