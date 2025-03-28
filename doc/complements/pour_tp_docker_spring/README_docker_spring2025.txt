@@ -20,5 +20,7 @@ docker build -t tp/applispring .
 =======
 démarrer container docker depuis l'image:
 docker run -d -p 8181:8181 --name applispring-container tp/applispring
+docker container ls
+http://localhost:8181/appliSpringWeb
 
 
