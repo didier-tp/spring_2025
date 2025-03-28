@@ -74,7 +74,7 @@ public class CompteRestCtrl {
 	//http://localhost:8181/appliSpring/rest/api-bank/v1/comptes?soldeMini=50
 	// .../rest/api-bank/v1/comptes?numClient=1
 	@GetMapping()
-	@PreAuthorize("hasRole('CUSTOMER')")
+	//@PreAuthorize("hasRole('CUSTOMER')")
 	public List<Compte> getComptesByCriteria(
 			@RequestParam(value="soldeMini",required=false) Double soldeMini,
 			@RequestParam(value="numClient",required=false) Long numClient) {
