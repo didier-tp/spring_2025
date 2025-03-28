@@ -51,11 +51,11 @@ public class AppliSpringApplication extends SpringBootServletInitializer {
 
 	//pour test temporaire de @ConditionalOnMissingBean()
 	//sur xy.MySecurityConfig du sous projet mysecurity-autoconfigure :
-	/*
-	@Bean(name="permitListAsString")
+    /*
+	@Bean(name="permitAllListAsString")
 	public String monBeanPrioritaire(){
-		return "monChemin";
+		return "/rest/api-auth/v1/standalone-jwt-auth;/blabla/**";
 	}
-    */
+   */
 
 }

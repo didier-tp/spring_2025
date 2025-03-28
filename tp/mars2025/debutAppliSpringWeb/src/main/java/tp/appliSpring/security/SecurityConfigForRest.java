@@ -23,6 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import tp.appliSpring.security.generic.standalone.JwtAuthenticationFilter;
+import xy.MyPermissionConfigurer;
 //import xy.MySecurityConfig;
 
 @Configuration
@@ -31,7 +32,7 @@ import tp.appliSpring.security.generic.standalone.JwtAuthenticationFilter;
 //plus besoin de @Import explicite si auto-configuration dans sous projet mysecurity-autoconfigure
 @EnableMethodSecurity()//pour que le test @PreAuthorize("hasRole('ADMIN')") puisse bien fonctionner
 public class SecurityConfigForRest {
-/*
+
 	//optional config from mysecurity-autoconfigure
 	@Autowired(required = false)
 	@Qualifier("permitAllListAsString")
@@ -47,7 +48,7 @@ public class SecurityConfigForRest {
 
 	@Autowired(required = false)
 	private MyPermissionConfigurer myPermissionConfigurer;
-*/
+
 
 	@Bean
 	@Order(1)
@@ -59,7 +60,7 @@ public class SecurityConfigForRest {
 				.build();
 	}
 
-/*
+
 	// VERSION AVEC MyPermissionConfigurer et propriétés de type mysecurity.area.permit-all-list,mysecurity.area.permit-get-list,mysecurity.area.auth-list
 	private HttpSecurity restFilterChainBuilder(HttpSecurity http) throws Exception {
 		System.out.println("permitAllListAsString=" + permitAllListAsString);//simple affichage
@@ -76,9 +77,9 @@ public class SecurityConfigForRest {
 				.sessionManagement(sM ->
 						sM.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); //important to get 401/Unauthorized
 	}
-*/
 
 
+/*
 // VERSION SANS MyPermissionConfigurer
 	private HttpSecurity restFilterChainBuilder(HttpSecurity http) throws Exception {
 
@@ -91,21 +92,8 @@ public class SecurityConfigForRest {
 				.cors( Customizer.withDefaults())
 				.sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.csrf( csrf -> csrf.disable() );
-
-		/* CODE A COMPLETER EN TP
-		  avec :
-		   - permitAll sur /rest/api-auth/v1/standalone-jwt-auth
-		  - permitAll sur les requetes GET de /rest/api-bank/v1/comptes/**
-		  - authenticated sur les autres requetes /rest/** (avec gestion de la session STATELESS)
-		  ET
-				config par defaut pour cors
-		        csrf.disable()
-		        SessionCreationPolicy.STATELESS
-		 */
-
-
 	}
-
+*/
 
 	//############## JUST FOR withoutOAuth2 (plan B si pas de OAuth2)  #####################
     ///rest/api-auth/v1/standalone-jwt-auth
