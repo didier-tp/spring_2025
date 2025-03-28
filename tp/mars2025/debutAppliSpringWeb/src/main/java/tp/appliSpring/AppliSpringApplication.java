@@ -9,7 +9,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-public class AppliSpringApplication  {
+public class AppliSpringApplication extends SpringBootServletInitializer {
+
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(AppliSpringApplication.class)
+		      .profiles("dev,reInit"); //setting profiles here
+          // or with system properties of the server (ex: tomcat)
+	}
 
 	public static void initProfiles() {
 		//java .... -Dspring.profiles.active=reInit,dev
