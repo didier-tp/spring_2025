@@ -35,15 +35,15 @@ public class ExempleConfigExplicite {
     private String monSuffixe;
 
     @Bean
-    @Profile("!maj")
-    public Prefixeur prefixeurBasic(){
-        return new PrefixeurBasic(monPrefixe);
-    }
-
-    @Bean
     @Profile("maj")
     public Prefixeur prefixeurMaj(){
         return new PrefixeurMaj(monPrefixe);
+    }
+
+    @Bean
+    @Profile("!maj")
+    public Prefixeur prefixeurBasic(){
+        return new PrefixeurBasic(monPrefixe);
     }
 
 
