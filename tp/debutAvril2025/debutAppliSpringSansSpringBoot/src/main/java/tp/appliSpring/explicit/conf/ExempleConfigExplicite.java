@@ -32,17 +32,31 @@ public class ExempleConfigExplicite {
     private String monPrefixe; //="#";
 
     @Value("${preferences.suffixe:###}")
-    private String monSuffixe; //="#";
+    private String monSuffixe;
 
     @Bean
-    public Prefixeur prefixeur(){
+    @Profile("!maj")
+    public Prefixeur prefixeurBasic(){
         return new PrefixeurBasic(monPrefixe);
+    }
+
+    @Bean
+    @Profile("maj")
+    public Prefixeur prefixeurMaj(){
+        return new PrefixeurMaj(monPrefixe);
     }
 
 
     @Bean
-    public Suffixeur suffixeur(){
+    @Profile("!maj")
+    public Suffixeur suffixeurBasic(){
         return new SuffixeurBasic(monSuffixe);
+    }
+
+    @Bean
+    @Profile("maj")
+    public Suffixeur suffixeurMaj(){
+        return new SuffixeurMaj(monSuffixe);
     }
 
     @Bean
