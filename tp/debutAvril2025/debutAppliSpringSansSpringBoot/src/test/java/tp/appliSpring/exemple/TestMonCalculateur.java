@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 //@RunWith(SpringRunner.class)  //si junit4
 @ExtendWith(SpringExtension.class) //si junit5/jupiter
@@ -25,7 +27,7 @@ public class TestMonCalculateur {
 	public void testCalculer() {
 		double res = monCalculateur.calculer(4);
 		logger.debug("pour x=4 , res="+res);
-		Assertions.assertEquals(16.0, res,0.00000001);
+		assertEquals(16.0, res,0.00000001);
 	}
 
 }
