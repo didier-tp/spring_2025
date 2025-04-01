@@ -11,7 +11,14 @@ import java.util.List;
 
 public interface OperationRepository extends JpaRepository<OperationEntity,Long> {
 
-    @Query("SELECT op FROM OperationEntity op WHERE op.compte.numero=?1 AND op.dateOp between ?2 and ?3")
-    List<OperationEntity> findForCompteWithDateBetween(Long numCompte, Date date1, Date date2);
+    //@Query("SELECT op FROM OperationEntity op WHERE op.compte.numero=?1 AND op.dateOp between ?2 and ?3")
+    //List<OperationEntity> findForCompteWithDateBetween(Long numCompte, Date date1, Date date2);
+
+    @Query("SELECT op FROM OperationEntity op WHERE op.compte.numero=:numCompte AND op.dateOp between :date1 and :date2")
+    List<OperationEntity> findForCompteWithDateBetween(Long numCompte,
+                                                       Date date1,
+                                                       Date date2);
+
+    List<OperationEntity> findByCompteNumeroAndDateOpBetween(Long numCompte, Date date1, Date date2);
 
 }
