@@ -3,6 +3,7 @@ package tp.appliSpring.exemple;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import tp.appliSpring.annotation.LogExecutionTime;
 
 @Component
 @Primary
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class MonAfficheurV1 implements MonAfficheur {
 
 	@Override
+	//@LogExecutionTime
 	public void afficher(String message) {
 		System.out.println(">>"+message);
 
