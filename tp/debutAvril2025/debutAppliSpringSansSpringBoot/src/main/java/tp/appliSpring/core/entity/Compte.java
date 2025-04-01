@@ -25,6 +25,7 @@ public class Compte {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long numero;
 
+   @Column(name="label", length=50)
     private String label;
 
     private Double solde;

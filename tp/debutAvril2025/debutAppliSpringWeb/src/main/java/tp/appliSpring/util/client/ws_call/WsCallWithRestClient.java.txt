@@ -1,0 +1,171 @@
+package tp.appliSpring.util.client.ws_call;
+
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient;
+
+import org.springframework.web.util.UriComponentsBuilder;
+import tp.appliSpring.util.client.dto.DeviseDto;
+import tp.appliSpring.util.client.dto.ZippopotamResponse;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
+
+public class WsCallWithRestClient {
+
+    public static void testRestClientGetZippopotam(){
+        RestClient restClient = RestClient.create();
+        String uriBase = "http://api.zippopotam.us";
+
+        String resultAsJsonString = restClient.get()
+                .uri(uriBase + "/fr/75001")
+                .retrieve()
+                .body(String.class);
+        System.out.println("resultAsJsonString="+resultAsJsonString);
+
+        ZippopotamResponse resultAsObject = restClient.get()
+                .uri(uriBase + "/fr/75001")
+                .retrieve()
+                .body(ZippopotamResponse.class);
+        System.out.println("resultAsObject="+resultAsObject);
+    }
+
+    public static void testRestClientGetDevises(){
+        RestClient restClient = RestClient.create();
+        String uriBase = "https://www.d-defrance.fr/tp/devise-api/v1/public";
+
+        String resultAsJsonString = restClient.get()
+                .uri(uriBase + "/devises")
+                .retrieve()
+                .body(String.class);
+        System.out.println("resultAsJsonString="+resultAsJsonString);
+
+        DeviseDto deviseEur = restClient.get()
+                .uri(uriBase+ "/devises/EUR")
+                .retrieve()
+                .body(DeviseDto.class);
+        System.out.println("deviseEur="+deviseEur);
+
+        ResponseEntity<DeviseDto> deviseEurRespEntity = restClient.get()
+                .uri(uriBase+ "/devises/EUR")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .toEntity(DeviseDto.class);
+        System.out.println("deviseEurRespEntity="+deviseEurRespEntity.getStatusCode().value());
+
+        List<DeviseDto> devises = restClient.get()
+                .uri(uriBase+ "/devises")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<DeviseDto>>(){});
+        System.out.println("devises="+devises);
+    }
+
+    public static void testRestClientPostDevise(){
+        RestClient restClient = RestClient.create();
+        String uriBase = "https://www.d-defrance.fr/tp/devise-api/v1/public";
+
+        DeviseDto newDevise = new DeviseDto("Xxx","DeviseXxx",1.123456789);
+        //ResponseEntity<Void> if    .toBodilessEntity();
+        ResponseEntity<DeviseDto> postDeviseRespEntity = restClient.post()
+                .uri(uriBase + "/devises")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(newDevise)
+                .retrieve()
+                .toEntity(DeviseDto.class);
+
+        System.out.println("postDeviseRespEntity="+postDeviseRespEntity);
+        System.out.println("postDeviseRespEntity.status="+postDeviseRespEntity.getStatusCode().value());
+        System.out.println("postDeviseRespEntity.body="+postDeviseRespEntity.getBody());
+        System.out.println("postDeviseRespEntity.location_with_id="+postDeviseRespEntity.getHeaders().get("Location").get(0));
+    }
+
+    public static void testRestClientDeleteDevise(){
+        RestClient restClient = RestClient.create();
+        String uriBase = "https://www.d-defrance.fr/tp/devise-api/v1/public";
+
+        try {
+            ResponseEntity<Void> deleteDeviseResponseEntity = restClient.delete()
+                    .uri(uriBase + "/devises/Xxx")
+                    .retrieve()
+                    .toBodilessEntity();
+            System.out.println("deleteDeviseResponseEntity.status="+deleteDeviseResponseEntity.getStatusCode().value());
+        } catch (Exception e) {
+            System.err.println("echec delete devise: " + e.getMessage());
+        }
+    }
+
+    public static String fetchToken(){
+        //fetch keycloak token via a MediaType.APPLICATION_FORM_URLENCODED request:
+
+        RestClient restClient = RestClient.create();
+        String uriBase = "https://www.d-defrance.fr/keycloak/realms/sandboxrealm";
+        String clientId = "anywebappclient";
+
+        MultiValueMap<String, String> formParamMap= new LinkedMultiValueMap<>();
+        formParamMap.add("username", "admin1");
+        formParamMap.add("password", "pwd1");
+        formParamMap.add("client_id", clientId);
+        formParamMap.add("grant_type", "password"); //OK mais à améliorer car grant_type=password déconseillé .
+
+        ResponseEntity<Map> responseFetchToken = restClient.post()
+                .uri(uriBase + "/protocol/openid-connect/token")
+                .body(formParamMap)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .retrieve()
+                .toEntity(Map.class);
+
+        System.out.println("responseFetchToken.status="+responseFetchToken.getStatusCode().value());
+        System.out.println("responseFetchToken.body as map="+responseFetchToken.getBody());
+        return (String) responseFetchToken.getBody().get("access_token");
+    }
+
+    public static void testRestClientPutDeviseWithSecurity(){
+        RestClient restClient = RestClient.create();
+        String uriBase = "https://www.d-defrance.fr/tp/devise-api/v1/private"; //private with oauth2 security
+
+        String token = WsCallWithRestClient.fetchToken();
+        System.out.println("oauth2 token=" + token);
+
+        DeviseDto updatedDevise = new DeviseDto("Xxx","DeviseXxx_updated",0.789);
+        ResponseEntity<DeviseDto>  putDeviseRespEntity = restClient.put()
+                .uri(uriBase + "/devises/Xxx")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization" , "Bearer " + token)
+                .body(updatedDevise)
+                .retrieve()
+                .toEntity(DeviseDto.class);
+        //NB: au 17/03/2025 , https://www.d-defrance.fr/tp/devise-api/v1/private ne gère pas bien les tokens générés par keycloak ....
+        System.out.println("putDeviseRespEntity="+putDeviseRespEntity);
+        System.out.println("putDeviseRespEntity.status="+putDeviseRespEntity.getStatusCode().value());
+    }
+
+    public static void testRestClientPutCompteWithSecurity(){
+        RestClient restClient = RestClient.create();
+        String uriBase = "http://localhost:8181/appliSpring/rest/api-bank/v1";
+
+        String token = WsCallWithRestClient.fetchToken();
+        System.out.println("oauth2 token=" + token);
+
+        Map<String,Object> compteDtoAsMap = new HashMap<>();
+        compteDtoAsMap.put("numero", 1L);
+        compteDtoAsMap.put("label", "new label for compte 3");
+        compteDtoAsMap.put("solde", 1234.5);
+        ResponseEntity<Map>  putCompteRespEntity = restClient.put()
+                .uri(uriBase + "/comptes/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization" , "Bearer " + token)
+                .body(compteDtoAsMap)
+                .retrieve()
+                .toEntity(Map.class);
+
+        System.out.println("putCompteRespEntity="+putCompteRespEntity);
+        System.out.println("putCompteRespEntity.status="+putCompteRespEntity.getStatusCode().value());
+    }
+}
