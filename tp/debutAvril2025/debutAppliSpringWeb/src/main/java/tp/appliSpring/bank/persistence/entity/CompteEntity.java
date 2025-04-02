@@ -4,6 +4,7 @@ package tp.appliSpring.bank.persistence.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
@@ -28,7 +29,7 @@ public class CompteEntity {
     //@JsonIgnore
     private List<OperationEntity> operations = new ArrayList<>(); //+get/set
 
-	@ManyToMany(mappedBy = "comptes" , cascade = CascadeType.DETACH) // coté secondaire avec mappedBy="nomJavaRelationInverse"
+	@ManyToMany(mappedBy = "comptes" , cascade = CascadeType.DETACH ) // coté secondaire avec mappedBy="nomJavaRelationInverse"
 	private List<ClientEntity> clients = new ArrayList<>();
 
   //+get/set , constructeur , toString()

@@ -1,13 +1,11 @@
 package tp.appliSpring.bank.core.model;
 
+import lombok.*;
 import tp.appliSpring.generic.model.WithId;
-//import lombok.Getter;
-//import lombok.NoArgsConstructor;
-//import lombok.Setter;
-//import lombok.ToString;
 
-//@ToString @NoArgsConstructor
-//@Getter @Setter
+@ToString @NoArgsConstructor
+@Getter @Setter
+//@RequiredArgsConstructor
 public class Compte implements WithId<Long> {
     private Long numero;
 
@@ -21,15 +19,15 @@ public class Compte implements WithId<Long> {
         this.solde = solde;
     }
 
-    public Compte() {
+   /* public Compte() {
         this(null,null,null);
-    }
+    }*/
 
     @Override
     public Long extractId() {
         return this.numero;
     }
-
+/*
     @Override
     public String toString() {
         return "Compte{" +
@@ -62,4 +60,6 @@ public class Compte implements WithId<Long> {
     public void setSolde(Double solde) {
         this.solde = solde;
     }
+    */
+
 }
