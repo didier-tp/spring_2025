@@ -1,5 +1,6 @@
 package tp.appliSpring.bank.core.service.direct;
 
+import io.micrometer.observation.annotation.Observed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
@@ -80,11 +81,27 @@ public class ServiceCompteDirectImpl extends GenericServiceDirectImpl<Compte,Com
 	}
 
 	@Override
+	@Observed(name = "searchCustomerAccounts")
+	//.../actuator/metrics/searchCustomerAccounts
 	public List<Compte> searchCustomerAccounts(Long numClient) {
 		return GenericMapper.MAPPER.map(daoCompte.findByClientsNumero(numClient),Compte.class);
 		//return myBankMapper.fromEntities(daoCompte.findByClientsNumero(numClient));
 		//return MyBankMapper.INSTANCE.fromEntities(daoCompte.findByClientsNumero(numClient));
 	}
 
+	/*
+	{"name":"searchCustomerAccounts","baseUnit":"seconds",
+	"measurements":[
+		{"statistic":"COUNT","value":6.0},
+		{"statistic":"TOTAL_TIME","value":0.0253145},
+		{"statistic":"MAX","value":0.0140763}],
+	"availableTags":[
+		{"tag":"method","values":["searchCustomerAccounts"]},
+		{"tag":"error","values":["none"]},
+		{"tag":"class","values":["tp.appliSpring.bank.core.service.direct.ServiceCompteDirectImpl"]}
+		]
+	}
+	 */
 
+//plus autres détails dans versions spring6_2024 de décembre 2024
 }
