@@ -40,7 +40,7 @@ public class RestResponseEntityExceptionHandler
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		String error = "Malformed JSON request";
+		String error = "Malformed JSON request ****";
 		return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error));
 	}
 

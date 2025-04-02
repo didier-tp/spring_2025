@@ -1,5 +1,6 @@
 package tp.appliSpring.bank.web.api.rest;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import tp.appliSpring.bank.core.model.Compte;
 import tp.appliSpring.bank.core.service.ServiceCompte;
 import tp.appliSpring.bank.persistence.entity.CompteEntity;
 import tp.appliSpring.bank.persistence.repository.CompteRepository;
+import tp.appliSpring.bank.web.api.dto.CompteToCreate;
 import tp.appliSpring.generic.dto.ApiError;
 import tp.appliSpring.generic.exception.EntityNotFoundException;
 
@@ -92,7 +94,7 @@ public class CompteRestCtrl {
 	//avec dans la partie "body" de la requête
 	// { "numero" : null , "label" : "comptequiVaBien" , "solde" : 50.0 }
 	@PostMapping("")
-	public ResponseEntity<?> postCompte(/*@Valid*/ @RequestBody /*CompteToCreate*/ Compte compte) {
+	public ResponseEntity<?> postCompte(@Valid @RequestBody CompteToCreate compte) {
 		Compte compteSauvegarde = serviceCompte.create(compte);  //avec numero auto_incrémenté
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
