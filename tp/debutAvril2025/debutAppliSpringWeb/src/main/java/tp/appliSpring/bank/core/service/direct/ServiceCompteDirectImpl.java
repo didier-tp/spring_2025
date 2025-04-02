@@ -40,7 +40,7 @@ public class ServiceCompteDirectImpl extends GenericServiceDirectImpl<Compte,Com
 		this.daoClient=daoClient;
 	}
 
-	@Transactional()
+	//@Transactional()
 	//@Transactional(propagation = Propagation.REQUIRED)par défaut
 	public void transfer(double montant, long numCptDeb, long numCptCred)throws BankException {
 		try {
