@@ -14,7 +14,7 @@ import tp.appliSpring.bank.core.model.Operation;
 import java.util.List;
 
 @Service
-@Transactional
+//@Transactional
 public class ServiceOperationDirectImpl implements ServiceOperation {
 
     @Autowired
@@ -24,6 +24,7 @@ public class ServiceOperationDirectImpl implements ServiceOperation {
     private OperationRepository daoOperation;
 
     @Override
+    @Transactional
     public Operation create(Operation op, Long numCpt) {
         OperationEntity opEntity = GenericMapper.MAPPER.map(op,OperationEntity.class);
         CompteEntity compteEntity = daoCompte.findById(numCpt).get();
@@ -34,8 +35,10 @@ public class ServiceOperationDirectImpl implements ServiceOperation {
     }
 
     @Override
+    //@Transactional(readOnly = true)
+    @Transactional()
     public List<Operation> searchByCompte(long numCpt) {
-        // CompteEntity compteEntity = daoCompte.findWithOperations(numCpt);
+        //CompteEntity compteEntity = daoCompte.findWithOperations(numCpt);
         CompteEntity compteEntity = daoCompte.findById(numCpt).get();
         compteEntity.getOperations().size();// boucle interne automatique (lazy loading différé)
         return GenericMapper.MAPPER.map(compteEntity.getOperations(),Operation.class);
