@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tp.appliSpring.bank.core.exception.BankException;
 import tp.appliSpring.bank.core.model.Compte;
@@ -41,7 +42,7 @@ public class ServiceCompteDirectImpl extends GenericServiceDirectImpl<Compte,Com
 	}
 
 	//@Transactional()
-	//@Transactional(propagation = Propagation.REQUIRED)par défaut
+	@Transactional(propagation = Propagation.REQUIRED)//par défaut
 	public void transfer(double montant, long numCptDeb, long numCptCred)throws BankException {
 		try {
 			CompteEntity cptDeb = daoCompte.findById(numCptDeb).get();

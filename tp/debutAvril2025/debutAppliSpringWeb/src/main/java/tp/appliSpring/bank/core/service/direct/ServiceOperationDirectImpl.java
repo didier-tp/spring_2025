@@ -11,6 +11,8 @@ import tp.appliSpring.bank.persistence.entity.CompteEntity;
 import tp.appliSpring.bank.persistence.entity.OperationEntity;
 import tp.appliSpring.bank.core.model.Operation;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class ServiceOperationDirectImpl implements ServiceOperation {
@@ -29,5 +31,13 @@ public class ServiceOperationDirectImpl implements ServiceOperation {
         OperationEntity savedOpEntity = daoOperation.save(opEntity);
         op.setNumero(savedOpEntity.getNumero());
         return op;
+    }
+
+    @Override
+    public List<Operation> searchByCompte(long numCpt) {
+        // CompteEntity compteEntity = daoCompte.findWithOperations(numCpt);
+        CompteEntity compteEntity = daoCompte.findById(numCpt).get();
+        compteEntity.getOperations().size();// boucle interne automatique (lazy loading différé)
+        return GenericMapper.MAPPER.map(compteEntity.getOperations(),Operation.class);
     }
 }
