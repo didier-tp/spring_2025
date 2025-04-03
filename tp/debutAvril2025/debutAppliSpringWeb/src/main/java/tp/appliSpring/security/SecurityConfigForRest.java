@@ -82,8 +82,19 @@ public class SecurityConfigForRest {
 // VERSION SANS MyPermissionConfigurer
 	private HttpSecurity restFilterChainBuilder(HttpSecurity http) throws Exception {
 
-		return http.securityMatcher("/rest/**");
+		return http.securityMatcher("/rest/**")
+				.authorizeHttpRequests(
+						auth ->
+								auth.requestMatchers(HttpMethod.GET,"/rest/api-bank/v1/comptes/**").permitAll()
+										.requestMatchers("/rest/api-auth/v1/standalone-jwt-auth").permitAll()
+										.requestMatchers("/rest/**").authenticated()
 
+				).cors( Customizer.withDefaults()) //enable CORS (avec @CrossOrigin sur class @RestController)
+				.csrf( csrf -> csrf.disable() )
+				.sessionManagement(
+						sM -> sM.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				);
+// If the user is not authenticated, returns 401
 		/* CODE A COMPLETER EN TP
 		  avec :
 		   - permitAll sur /rest/api-auth/v1/standalone-jwt-auth

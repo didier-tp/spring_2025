@@ -1,5 +1,6 @@
 package tp.appliSpring.bank.site.controller;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +14,7 @@ import tp.appliSpring.bank.site.form.InscriptionForm;
 @Controller
 @RequestMapping("/site/basic")
 @SessionAttributes({"x", "racine"})
+@Scope("singleton")
 public class BasicController {
     @RequestMapping("helloWorld")
     public String helloWorld(Model model) {

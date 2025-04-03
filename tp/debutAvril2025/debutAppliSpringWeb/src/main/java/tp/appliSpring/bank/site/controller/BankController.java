@@ -166,5 +166,26 @@ public class BankController {
 
 
 	//A faire en Tp , virement avec 2 comptes du même client
-
+	@RequestMapping("doVirement")
+	public String doVirement(Model model,
+							 HttpSession httpSession,
+							 @Valid @ModelAttribute("virement") VirementForm virement,
+							 BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			// form validation error
+			System.out.println("form validation error: " + bindingResult.toString());
+			return "virement";
+		}
+		try {
+			serviceCompte.transfer(virement.getMontant(), virement.getNumCptDeb(), virement.getNumCptCred());
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("message", e.getMessage());
+			Long numClient=(Long)model.getAttribute("numClient");
+			List<Compte> listeComptes = serviceCompte.searchCustomerAccounts(numClient);
+			model.addAttribute("listeComptes", listeComptes);
+			return "virement";
+		}
+		return comptesDuClient(model); //réactualiser et afficher nouvelle liste des comptes
+	}
 }
