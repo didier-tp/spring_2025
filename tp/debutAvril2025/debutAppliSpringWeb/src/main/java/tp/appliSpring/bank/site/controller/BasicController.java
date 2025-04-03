@@ -12,7 +12,7 @@ import tp.appliSpring.bank.site.form.InscriptionForm;
 
 @Controller
 @RequestMapping("/site/basic")
-
+@SessionAttributes({"x", "racine"})
 public class BasicController {
     @RequestMapping("helloWorld")
     public String helloWorld(Model model) {
@@ -32,7 +32,7 @@ public class BasicController {
         model.addAttribute("taux", taux);//pour réafficher la valeur saisie précédemment
         return "calcul_tva" ;//.jsp ou .html(thymeleaf)
     }
-/*
+
     @ModelAttribute("x")
     public Double addDefaultXAttributeInModel() {
         return 0.0;
@@ -42,7 +42,7 @@ public class BasicController {
     public Double addDefaultRacineAttributeInModel() {
         return 0.0;
     }
-*/
+
     @RequestMapping("calculRacineCarree")
     public String calculRacineCarree(Model model,
                                      @RequestParam(name="x",required = false) Double x) {
