@@ -54,7 +54,9 @@ public class MyUserDetailsService implements UserDetailsService {
 			try {
 				Long numClient = Long.parseLong(username.substring(7));
 				Client customer = serviceCustomer.searchById(numClient);
-
+				authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+				password = customer.getPassword();//mot de passe dejà crypté en base
+				userDetails = new User(username, password, authorities);
 
 				//PARTIE de CODE a COMPLETER EN TP
 
