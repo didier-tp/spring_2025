@@ -96,13 +96,13 @@
 			<artifactId>jakarta.annotation-api</artifactId> <!-- @PostConstruct -->
 			<version>2.1.1</version>
 		</dependency>
-		<!--
+
 <dependency>
 <groupId>org.projectlombok</groupId>
 <artifactId>lombok</artifactId>
 <version>1.18.30</version>
 </dependency>
--->
+
 
 <!-- lombok sert à générer automatiquement les get/set et toString() 
          pas de configuration supplémentaire absolument nécessaire dans intellij
