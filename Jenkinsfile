@@ -16,11 +16,11 @@ pipeline {
 		docker_image_name='didierdefrance69/appli_spring_v3:1'
 	}
     stages {
-	    //stage('from_git') {
-        //    steps {
-        //          git url : 'https://github.com/didier-tp/spring_2025' , branch : 'main'
-        //    }
-        //}
+	    stage('from_git') {
+            steps {
+                  git url : 'https://github.com/didier-tp/spring_2025' , branch : 'main'
+            }
+        }
         stage('mvn_clean_package_skip_test') {
             steps {
 			script {
@@ -28,7 +28,6 @@ pipeline {
 					echo 'mvn clean install mysecurity-autoconfigure (dependency) '
 					sh 'mvn clean install -Dmaven.test.skip=true'
 					}
-				}
               dir('tp/appliSpringWeb') {
 					echo 'mvn clean package '
 					sh 'mvn clean package -Dmaven.test.skip=true'
