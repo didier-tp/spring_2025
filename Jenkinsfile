@@ -24,6 +24,11 @@ pipeline {
         stage('mvn_clean_package_skip_test') {
             steps {
 			script {
+			dir('tp/mysecurity-autoconfigure') {
+					echo 'mvn clean install mysecurity-autoconfigure (dependency) '
+					sh 'mvn clean install -Dmaven.test.skip=true'
+					}
+				}
               dir('tp/appliSpringWeb') {
 					echo 'mvn clean package '
 					sh 'mvn clean package -Dmaven.test.skip=true'
