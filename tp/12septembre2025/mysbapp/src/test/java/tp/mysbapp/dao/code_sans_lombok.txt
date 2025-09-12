@@ -7,24 +7,27 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
-import lombok.RequiredArgsConstructor;
 import tp.mysbapp.entity.ProductEntity;
 
 
 @SpringBootTest
 @ActiveProfiles({"dev_h2","ddl_auto"})
-@RequiredArgsConstructor()//pour demander à lombok de générer un constructeur
-//avec toutes les choses "final" , et donc constructeur qui fait de l'injection de dépendance
 public class TestProductDaoH2 {
 	private static Logger logger = LoggerFactory.getLogger(TestProductDaoH2.class);
 
-
-	private final ProductDao productDao ; //à tester
+	//@Autowired possible sur private
+	private ProductDao productDao ; //à tester
 	
+	//@Autowired implicite/sous_entendu
+	//sur constructeur qui fait de l'injection de dépendance
+	public TestProductDaoH2(ProductDao productDao) {
+		this.productDao=productDao;
+	}
 	
 	@Test
 	@Sql({"/import_products.sql"})//import_products.sql dans src/test/resources
