@@ -3,6 +3,7 @@ package tp.mysbapp.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +24,12 @@ public class ProductRestCtrl {
 	//RECHERCHE UNIQUE selon RESOURCE-ID:
 	//URL de déclenchement: .../mysbapp/api-producti/v1/products/1
 	@GetMapping("/{id}" )
-	public Product getDeviseByCode(@PathVariable("id") Long id) {
-	return productService.findById(id).get();
+	public ResponseEntity<Product> getProduitById(@PathVariable("id") Long id) {
+	   return ResponseEntity.of(productService.findById(id));
+	   //ResponseEntity.of(chose_optional) renvoi automatiquement 404 si empty
+	   //200/OK si trouvé
 	}
+	
 	//RECHERCHE MULTIPLE :
 	//URL de déclenchement: /mysbapp/api-product/v1/products 
 	//ou                    /mysbapp/api-product/v1/products?priceMaxi=5
