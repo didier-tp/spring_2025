@@ -48,9 +48,10 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product saveNew(Product p) {
 		ProductEntity pE = GenericMapper.MAPPER.map(p,ProductEntity.class);
-		productDao.save(pE);
-		p.setId(pE.getId()); //stored auto_incr id 
-		return p;
+		pE.setId(null);
+		ProductEntity savedEntity = productDao.save(pE); //avec id auto_incrementé
+		//p.setId(pE.getId()); //stored auto_incr id //ancienne version sans ProductToCreate
+		return GenericMapper.MAPPER.map(savedEntity,Product.class);
 	}
 
 	@Override
