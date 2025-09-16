@@ -6,7 +6,7 @@ public class ProductToCreate extends Product {
     public ProductToCreate(Long id, String label, Double price) {
         super(null, label,price);
     }
-    
+
 
     @Schema(hidden = true)
     public Long getId(){
