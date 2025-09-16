@@ -23,5 +23,3 @@ Exemples avec Reactor et WebFlux:
 dans référentiel https://github.com/didier-mycontrib/java_new_21plus
 -----
 
-
-
