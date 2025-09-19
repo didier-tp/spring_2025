@@ -11,6 +11,7 @@ import tp.sbapp.dao.ProductDao;
 import tp.sbapp.data.Product;
 import tp.sbapp.entity.ProductEntity;
 import tp.sbapp.util.GenericMapper;
+import tp.sbapp.util.MyMapStructMapper;
 
 @Service
 @Transactional
@@ -22,7 +23,8 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<Product> findAll() {
 		List<ProductEntity> listProdEntity = productDao.findAll();
-		return GenericMapper.MAPPER.map(listProdEntity,Product.class);
+		//return GenericMapper.MAPPER.map(listProdEntity,Product.class);
+		return MyMapStructMapper.INSTANCE.fromProductEntityList(listProdEntity);
 	}
 
 	@Override
