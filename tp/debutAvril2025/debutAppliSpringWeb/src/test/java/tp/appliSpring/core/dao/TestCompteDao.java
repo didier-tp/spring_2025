@@ -1,5 +1,6 @@
 package tp.appliSpring.core.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -24,9 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(classes= {AppliSpringApplication.class})//reprendre la configuration de la classe principale
 @ActiveProfiles({  "dev" })
+@Slf4j//creates private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TestCompteDao.class);
 public class TestCompteDao {
 
-    private static Logger logger = LoggerFactory.getLogger(TestCompteDao.class);
+    //private static Logger log = LoggerFactory.getLogger(TestCompteDao.class);
 
     @Autowired
     private CompteRepository daoCompte; //à tester
@@ -53,8 +55,8 @@ public class TestCompteDao {
         CompteEntity compteBReluAvecOp = daoCompte.findWithOperations(compteB.getNumero());
         assertTrue(compteBReluAvecOp.getLabel().equals("compteB"));
         assertTrue(compteBReluAvecOp.getOperations().size()==2);
-        logger.debug("compteBReluAvecOp="+compteBReluAvecOp);
-        logger.debug("operations de compteBReluAvecOp="+compteBReluAvecOp.getOperations());
+        log.debug("compteBReluAvecOp="+compteBReluAvecOp);
+        log.debug("operations de compteBReluAvecOp="+compteBReluAvecOp.getOperations());
 
     }
 
@@ -68,7 +70,7 @@ public class TestCompteDao {
         //List<CompteEntity> liste = daoCompte.findBySoldeGreaterThanEqual(150.0);
         List<CompteEntity> liste = daoCompte.findBySoldeSuperieurOuEgal(150.0);
 
-        logger.debug("liste="+liste);
+        log.debug("liste="+liste);
         //assertTrue(liste.size()==3);
         assertTrue(liste.size()>=3);
         assertThat(liste).extracting(CompteEntity::getLabel)
@@ -84,7 +86,7 @@ public class TestCompteDao {
         CompteEntity compteA4 = this.daoCompte.save(new CompteEntity(null,"compteAa4",400.0));
         //List<CompteEntity> liste = daoCompte.findBySoldeBetween(150.0,350.0);
         List<CompteEntity> liste = daoCompte.findBySoldeEntre(150.0,350.0);
-        logger.debug("liste="+liste);
+        log.debug("liste="+liste);
         //assertTrue(liste.size()==2);
         assertTrue(liste.size()>=2);
          assertThat(liste).extracting(CompteEntity::getLabel)
@@ -98,21 +100,21 @@ public class TestCompteDao {
         //hypothese : base avec tables vides au lancement du test
         CompteEntity compte = new CompteEntity(null,"compteA",100.0);
         CompteEntity compteSauvegarde = this.daoCompte.save(compte); //INSERT INTO
-        logger.debug("compteSauvegarde=" + compteSauvegarde);
+        log.debug("compteSauvegarde=" + compteSauvegarde);
 
         CompteEntity compteRelu = this.daoCompte.findById(compteSauvegarde.getNumero()).orElse(null); //SELECT
         Assertions.assertEquals("compteA",compteRelu.getLabel());
         Assertions.assertEquals(100.0,compteRelu.getSolde());
-        logger.debug("compteRelu apres insertion=" + compteRelu);
+        log.debug("compteRelu apres insertion=" + compteRelu);
 
         compte.setSolde(150.0); compte.setLabel("compte_a");
         CompteEntity compteMisAjour = this.daoCompte.save(compte); //UPDATE
-        logger.debug("compteMisAjour=" + compteMisAjour);
+        log.debug("compteMisAjour=" + compteMisAjour);
 
         compteRelu = this.daoCompte.findById(compteSauvegarde.getNumero()).orElse(null); //SELECT
         Assertions.assertEquals("compte_a",compteRelu.getLabel());
         Assertions.assertEquals(150.0,compteRelu.getSolde());
-        logger.debug("compteRelu apres miseAjour=" + compteRelu);
+        log.debug("compteRelu apres miseAjour=" + compteRelu);
 
 		/*
 		//+supprimer :
