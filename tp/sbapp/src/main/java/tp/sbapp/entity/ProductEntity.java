@@ -6,9 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.*;
 
 @Entity
 @Table(name="product")
+@Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
 public class ProductEntity {
 	
 	@Id
@@ -19,7 +21,8 @@ public class ProductEntity {
 	private String label;
 	
 	private Double price;
-	
+
+	/*
 	//+get/set, constructor , toString
 	public ProductEntity(Long id, String label, Double price) {
 		super();
@@ -63,4 +66,6 @@ public class ProductEntity {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	*/
+
 }

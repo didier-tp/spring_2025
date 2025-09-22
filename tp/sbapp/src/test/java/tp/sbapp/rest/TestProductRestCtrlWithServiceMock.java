@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
@@ -26,9 +27,8 @@ import tp.sbapp.service.ProductService;
 @WebMvcTest(controllers = { ProductRestCtrl.class } )
 //@ActiveProfiles({"dev_h2","ddl_auto"}) //No profile required here (with mocked service)
 //NB: @WebMvcTest  without service layer , service must be mocked !!!
+@Slf4j
 public class TestProductRestCtrlWithServiceMock {
-	
-	private static Logger logger = LoggerFactory.getLogger(TestProductRestCtrlWithServiceMock.class);
 	
 	@Autowired
     private MockMvc mvc;
@@ -53,10 +53,10 @@ public class TestProductRestCtrlWithServiceMock {
                             .andExpect(jsonPath("$[0].label", is("styloA") ))
                             .andExpect(jsonPath("$[1].price", is(2.3) ))
                             .andReturn();
-            logger.debug(">>>>>>>>> all products, jsonResult="
+            log.debug(">>>>>>>>> all products, jsonResult="
                     +mvcResult.getResponse().getContentAsString());
         } catch (Exception e) {
-        	logger.error(e.getMessage());
+        	log.error(e.getMessage());
         }
     }
 }

@@ -11,7 +11,7 @@ import tp.sbapp.service.ProductService;
 
 
 @Component
-@Profile("ddl_auto")
+@Profile("reinit")
 public class InitDataSet {
 	@Autowired
 	ProductService productService;

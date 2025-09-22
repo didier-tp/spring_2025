@@ -94,8 +94,19 @@
 			<artifactId>mapstruct-processor</artifactId>
 			<version>${mapstruct.version}</version>
 			<optional>true</optional>
-		</dependency>		
-		
+		</dependency>
+
+		<!-- dependency vers le projet mystarter visible ici
+		    si mvn install prealable  dans projet annexe mystarter
+		    affiche message_afficheur mm ou autre selon
+		    tp.message=m dans application.properties -->
+		<!--
+		<dependency>
+			<groupId>tp</groupId>
+			<artifactId>mystarter</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		-->
 	</dependencies>
 
 	<build>
@@ -108,6 +119,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
 						</path>
 						<!-- Mapstruct should follow the lombok path -->
 						<path>

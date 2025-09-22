@@ -3,28 +3,38 @@ package tp.sbapp.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tp.sbapp.dao.ProductDao;
 import tp.sbapp.data.Product;
 import tp.sbapp.entity.ProductEntity;
-import tp.sbapp.util.GenericMapper;
 import tp.sbapp.util.MyMapStructMapper;
 
 @Service
 @Transactional
+@RequiredArgsConstructor //pour injection de dépendances via constructeur (final fields)
 public class ProductServiceImpl implements ProductService{
 	
-	@Autowired
-	private ProductDao productDao;
+	//@Autowired
+	private final ProductDao productDao;
+
+	//@Autowired
+	private final MyMapStructMapper mapper;
 
 	@Override
 	public List<Product> findAll() {
 		List<ProductEntity> listProdEntity = productDao.findAll();
 		//return GenericMapper.MAPPER.map(listProdEntity,Product.class);
-		return MyMapStructMapper.INSTANCE.fromProductEntityList(listProdEntity);
+		return mapper.productEntityListToProductList(listProdEntity);
+	}
+
+	@Override
+	public List<Product> findByPrixMini(double prixMini) {
+		List<ProductEntity> listProdEntity = productDao.findByMinimumPrice(prixMini);
+		return mapper.productEntityListToProductList(listProdEntity);
 	}
 
 	@Override
@@ -33,20 +43,19 @@ public class ProductServiceImpl implements ProductService{
 		if(optProdEntity.isEmpty())
 			return Optional.empty();
 		else
-		    return Optional.of(GenericMapper.MAPPER.map(optProdEntity.get(),Product.class));
+		    return Optional.of(mapper.productEntityToProduct(optProdEntity.get()));
 	}
 
 	@Override
 	public Product saveNew(Product p) {
-		ProductEntity pE = GenericMapper.MAPPER.map(p,ProductEntity.class);
-		productDao.save(pE);
-		p.setId(pE.getId()); //stored auto_incr id 
-		return p;
+		ProductEntity pE = mapper.productToProductEntity(p);
+		ProductEntity savedPE =productDao.save(pE);
+		return mapper.productEntityToProduct(savedPE);
 	}
 
 	@Override
 	public void updateExisting(Product p) {
-		ProductEntity pE = GenericMapper.MAPPER.map(p,ProductEntity.class);
+		ProductEntity pE = mapper.productToProductEntity(p);
 		productDao.save(pE);
 	}
 

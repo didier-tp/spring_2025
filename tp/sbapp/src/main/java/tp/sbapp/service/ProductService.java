@@ -7,6 +7,7 @@ import tp.sbapp.data.Product;
 
 public interface ProductService {
 	List<Product> findAll();
+	List<Product> findByPrixMini(double prixMini);
 	Optional<Product> findById(Long id);
 	Product saveNew(Product p);
 	void updateExisting(Product p);

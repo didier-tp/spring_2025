@@ -12,8 +12,12 @@ public interface MyMapStructMapper {
 
     MyMapStructMapper INSTANCE = Mappers.getMapper( MyMapStructMapper.class );
 
-    ProductEntity toProductEntity(Product product);
-    List<ProductEntity> toProductEntityList(List<Product> products);
-    Product fromProductEntity(ProductEntity product);
-    List<Product> fromProductEntityList(List<ProductEntity> products);
+    //@Mapping(target="price", source="prix_or_price") //ex si noms différents
+    ProductEntity productToProductEntity(Product product);
+
+    List<ProductEntity> productListToProductEntityList(List<Product> products);
+
+    Product productEntityToProduct(ProductEntity product);
+
+    List<Product> productEntityListToProductList(List<ProductEntity> products);
 }
