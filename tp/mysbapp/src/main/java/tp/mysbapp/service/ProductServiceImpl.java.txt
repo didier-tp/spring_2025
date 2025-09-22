@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
-//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,9 +13,10 @@ import tp.mysbapp.data.Product;
 import tp.mysbapp.entity.ProductEntity;
 import tp.mysbapp.util.MyMapStructMapper;
 
+
 @Service
 @Transactional
-@RequiredArgsConstructor //pour injection de dépendances via constructeur (final fields)
+@RequiredArgsConstructor(onConstructor_ = @Autowired) //pour injection de dépendances via constructeur (final fields)
 public class ProductServiceImpl implements ProductService{
 	
 	//@Autowired

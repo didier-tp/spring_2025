@@ -1,0 +1,2 @@
+appliSpringWeb : application complète et complexe avec à la fois : services directs et architecture un peu hexaglonale
+appliSpringWebAvecLombokEtMapStruct : version sans architecture hexagonale mais avec forte utilisation de lombok et mapstruct
