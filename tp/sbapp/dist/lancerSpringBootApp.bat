@@ -5,6 +5,7 @@ echo "******************************"
 echo "via config/application.properties externe au .jar , :8282 a la place de :8181"
 echo "http://localhost:8282/sbapp"
 echo "******************************"
-java -Dspring.profiles.active=dev_h2,ddl_auto -jar target/sbapp-0.0.1-SNAPSHOT.jar
+REM sbapp.jar est ici une copie de target/sbapp-0.0.1-SNAPSHOT.jar
+java -Dspring.profiles.active=dev_h2,ddl_auto -jar sbapp.jar
 
 pause
