@@ -1,8 +1,6 @@
 package tp.appliSpring.bank.core.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +14,7 @@ import tp.appliSpring.generic.service.GenericServiceDirectImpl;
 
 @Service //@Component de type Service
 @Transactional
-@Qualifier("direct")
-@Primary
-public class ServiceClientDirectImpl extends GenericServiceDirectImpl<Client,ClientEntity,Long> implements ServiceClient {
+public class ServiceClientImpl extends GenericServiceDirectImpl<Client,ClientEntity,Long> implements ServiceClient {
 
 	private ClientRepository daoClient;
 
@@ -33,7 +29,7 @@ public class ServiceClientDirectImpl extends GenericServiceDirectImpl<Client,Cli
 	}
 
 	@Autowired
-	public ServiceClientDirectImpl(ClientRepository daoClient,PasswordEncoder passwordEncoder,MyBankGenericMapper myBankGenericMapper){
+	public ServiceClientImpl(ClientRepository daoClient, PasswordEncoder passwordEncoder, MyBankGenericMapper myBankGenericMapper){
 		super(Client.class, ClientEntity.class,daoClient,myBankGenericMapper);
 		this.myBankGenericMapper=myBankGenericMapper;
 		this.daoClient=daoClient;

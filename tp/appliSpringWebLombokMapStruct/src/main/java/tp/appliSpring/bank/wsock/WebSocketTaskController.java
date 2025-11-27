@@ -1,6 +1,7 @@
 package tp.appliSpring.bank.wsock;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -15,6 +16,7 @@ import java.util.List;
 
 
 @Controller
+@Slf4j
 public class WebSocketTaskController {
 
 	@Autowired
@@ -66,6 +68,7 @@ public class WebSocketTaskController {
 		this.lastTasksList=serviceTask.searchAll();
 		taskListMessage.setTasks(this.lastTasksList);
 		taskListMessage.setMessage(lastMessage);
+        log.debug("WebSocketTaskController.lastTasksList="+this.lastTasksList);
 		return taskListMessage;
 	}
 

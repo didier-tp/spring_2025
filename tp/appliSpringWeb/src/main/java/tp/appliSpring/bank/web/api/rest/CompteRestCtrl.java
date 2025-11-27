@@ -32,17 +32,17 @@ import tp.appliSpring.generic.exception.EntityNotFoundException;
 		             RequestMethod.PATCH , RequestMethod.DELETE , RequestMethod.PUT})
 public class CompteRestCtrl {
 
-	/*
+	
 	//Code potentiellement en erreur à ne pas reproduire:
 	@Autowired
 	private CompteRepository compteRepository;
-
+/*
 	@GetMapping("/{id}")
 	public CompteEntity badVersionWithoutDtoForGetCompteById(@PathVariable("id") long numeroCompte) {
 		return compteRepository.findById( numeroCompte).get();
 		//NB: plantage si pas de @JsonIgnore et généralement sans_DTO = très mauvaise pratique
 	}
-    */
+  */  
 
 
 	private ServiceCompte serviceCompte;
@@ -52,6 +52,7 @@ public class CompteRestCtrl {
 		this.serviceCompte = serviceCompte;
 	}
 
+	
 	//Get By ID
 	//V1 avec DTO et V3 (avec automatisme ExceptionHandler)
 	//declencher en mode GET avec

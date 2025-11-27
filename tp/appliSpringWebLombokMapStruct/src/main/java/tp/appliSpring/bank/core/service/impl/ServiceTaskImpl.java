@@ -12,14 +12,14 @@ import tp.appliSpring.generic.service.GenericServiceDirectImpl;
 
 @Service
 @Transactional
-public class ServiceTaskDirectImpl  extends GenericServiceDirectImpl<Task, TaskEntity,Long> implements ServiceTask {
+public class ServiceTaskImpl extends GenericServiceDirectImpl<Task, TaskEntity,Long> implements ServiceTask {
 
     private MyBankGenericMapper myBankGenericMapper;
 
     private TaskRepository daoTask;
 
     @Autowired
-    public ServiceTaskDirectImpl(TaskRepository daoTask,MyBankGenericMapper myBankGenericMapper){
+    public ServiceTaskImpl(TaskRepository daoTask, MyBankGenericMapper myBankGenericMapper){
         super(Task.class,TaskEntity.class,daoTask,myBankGenericMapper);
         this.daoTask=daoTask;
         this.myBankGenericMapper =myBankGenericMapper;

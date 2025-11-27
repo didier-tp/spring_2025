@@ -72,6 +72,21 @@ public class TestCompteDao {
         assertTrue(liste.size()>=3);
     }
 
+    @Test
+    //@DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
+    public void testFindBySoldeBetween(){
+        CompteEntity compteA1 = this.daoCompte.save(new CompteEntity(null,"compteAa1",100.0));
+        CompteEntity compteA2 = this.daoCompte.save(new CompteEntity(null,"compteAa2",200.0));
+        CompteEntity compteA3 = this.daoCompte.save(new CompteEntity(null,"compteAa3",300.0));
+        CompteEntity compteA4 = this.daoCompte.save(new CompteEntity(null,"compteAa4",400.0));
+        //List<CompteEntity> liste = daoCompte.findBySoldeBetween(150.0,350.0);
+        //List<CompteEntity> liste = daoCompte.findBySoldeEntre(150.0,350.0);
+        List<CompteEntity> liste = daoCompte.nativeFindBySoldeEntre(150.0,350.0);
+        log.debug("liste="+liste);
+        //assertTrue(liste.size()==2);
+        assertTrue(liste.size()>=2);
+    }
+
 
     @Test
     public void testAjoutEtRelectureEtSuppression() {

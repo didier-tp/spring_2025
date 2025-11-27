@@ -1,5 +1,6 @@
 package tp.appliSpring.generic.converter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  * et cet objet sera à la fois accessible via le singleton élémentaire
  * UltraBasicGenericMapper.MAPPER et comme un composant spring injectable
  */
+@Slf4j
 public class UltraBasicGenericMapper implements GenericMapper {
 	
 	public static UltraBasicGenericMapper MAPPER = new UltraBasicGenericMapper();
@@ -27,8 +29,10 @@ public class UltraBasicGenericMapper implements GenericMapper {
 			BeanUtils.copyProperties(source, target);
 		} catch (Exception e) {
 			//e.printStackTrace();
-			throw new RuntimeException("echec GenericMapper.map",e);
-		} 
+			throw new RuntimeException("echec UltraBasicGenericMapper.map",e);
+		}
+        log.trace("UltraBasicGenericMapper.map() called with source = "+source + " and targetClass = "+targetClass.getName());
+        log.trace("UltraBasicGenericMapper.map() result = "+target);
 		return target;
 	}
 	

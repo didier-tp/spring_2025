@@ -19,7 +19,9 @@ public class WithoutSecurityConfig {
 						                                 .requestMatchers("/h2-console/**").permitAll()
 				)
 		  .cors( Customizer.withDefaults() )
-		  .headers(headers -> headers.frameOptions().sameOrigin())//pour h2-console
+		  .headers(headers -> headers.frameOptions(
+                    frameOptions -> frameOptions.sameOrigin()
+          ))//pour h2-console
 		  .csrf( csrf -> csrf.disable() )
 		  .build();
 	}

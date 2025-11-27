@@ -1,8 +1,6 @@
 package tp.appliSpring.bank.core.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tp.appliSpring.bank.converter.MyBankGenericMapper;
@@ -20,16 +18,14 @@ import java.util.List;
 
 @Service //@Component de type Service
 //@Transactional
-@Qualifier("direct")
-@Primary
-public class ServiceCompteDirectImpl extends GenericServiceDirectImpl<Compte,CompteEntity,Long> implements ServiceCompte {
+public class ServiceCompteImpl extends GenericServiceDirectImpl<Compte,CompteEntity,Long> implements ServiceCompte {
 
 	private CompteRepository daoCompte;//dao principal
 	private MyBankGenericMapper myBankGenericMapper;
 	private ClientRepository daoClient;//dao annexe/secondaire
 
 	@Autowired
-	public ServiceCompteDirectImpl(CompteRepository daoCompte,ClientRepository daoClient,MyBankGenericMapper myBankGenericMapper){
+	public ServiceCompteImpl(CompteRepository daoCompte, ClientRepository daoClient, MyBankGenericMapper myBankGenericMapper){
 		super(Compte.class,CompteEntity.class,daoCompte,myBankGenericMapper);
 		this.daoCompte=daoCompte;
 		this.daoClient=daoClient;
@@ -73,7 +69,12 @@ public class ServiceCompteDirectImpl extends GenericServiceDirectImpl<Compte,Com
 
 	@Override
 	public List<Compte> searchCustomerAccounts(Long numClient) {
-		return myBankGenericMapper.map(daoCompte.findByClientsNumero(numClient),Compte.class);
+        //version 1 avec conversion entity -> model:
+		//return myBankGenericMapper.map(daoCompte.findByClientsNumero(numClient),Compte.class);
+
+        //version 2 avec projection direct en model via @Query Jpa/spring-data:
+        return daoCompte.findAsComptesByClientNum(numClient);
+
 	}
 
 

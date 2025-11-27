@@ -5,7 +5,7 @@ import tp.appliSpring.generic.converter.AbstractGenericConverter;
 
 /*
 MyBankGenericMapper inherit AbstractGenericConverter which implements GenericConverter
-and is implemented by UltraBasicGenericMapper if no mapstruct Conserter is set
+and is implemented by UltraBasicGenericMapper if no mapstruct Converter is set
 if a mapstruct Converter is set, it will be used by AbstractGenericConverter
 if methods convention name xxxToYyy()
  */
