@@ -3,12 +3,14 @@ package tp.appliSpring.explicit.conf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 import tp.appliSpring.explicit.beans.Encadreur;
 import tp.appliSpring.explicit.beans.EncadreurImpl;
 import tp.appliSpring.explicit.beans.Prefixeur;
 import tp.appliSpring.explicit.beans.PrefixeurBasic;
+import tp.appliSpring.explicit.beans.PrefixeurMaj;
 import tp.appliSpring.explicit.beans.Suffixeur;
 import tp.appliSpring.explicit.beans.SuffixeurBasic;
 
@@ -40,9 +42,18 @@ public class ExempleConfigExplicite {
 	private String monSuffixe;
     //private String monSuffixe="#";
 
+	
+	
     @Bean
-    public Prefixeur prefixeur(){
+    @Profile("minuscule")
+    public Prefixeur prefixeurMin(){
         return new PrefixeurBasic(monPrefixe);
+    }
+    
+    @Bean
+    @Profile("majuscule")
+    public Prefixeur prefixeurMaj(){
+        return new PrefixeurMaj(monPrefixe);
     }
 
 
@@ -50,6 +61,19 @@ public class ExempleConfigExplicite {
     public Suffixeur suffixeur(){
         return new SuffixeurBasic(monSuffixe);
     }
+    
+    /*
+    @Bean
+    public Prefixeur prefixeur(){
+        return new PrefixeurBasic(monPrefixe);
+    }
+
+   
+    @Bean
+    public Suffixeur suffixeur(){
+        return new SuffixeurBasic(monSuffixe);
+    }
+    */
 
     @Bean
     public Encadreur encadreurSpring( Prefixeur prefixeurSpring , Suffixeur suffixeurSpring){
