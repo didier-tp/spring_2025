@@ -28,7 +28,7 @@ public class TestDaoCompte {
 	@Autowired
 	private DaoCompte daoCompte; //à tester
 	
-	/*
+	
 	@Test
 	public void testAjoutEtRelecture() {
 		daoCompte.save(new Compte(null,"compteA",50.0));
@@ -38,8 +38,9 @@ public class TestDaoCompte {
 		assertTrue(comptes.size()>=2);
 		log.debug("comptes=" + comptes.toString());
 	}
-	*/
 	
+	
+	/*
 	@Test
 	@Sql({"/comptes.sql"}) //pour declencher le script comptes.sql placé dans src/test/resources
 	public void testAjoutEtRelecture() {
@@ -48,6 +49,6 @@ public class TestDaoCompte {
 		assertTrue(comptes.size()>=2);
 		log.debug("comptes=" + comptes.toString());
 	}
-
+     */
 	
 }
