@@ -2,7 +2,7 @@ package tp.appliSpring.dao;
 
 import java.util.List;
 
-import tp.appliSpring.entiy.Compte;
+import tp.appliSpring.entity.Compte;
 
 public interface DaoCompte {
 	

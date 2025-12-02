@@ -1,4 +1,4 @@
-package tp.appliSpring.entiy;
+package tp.appliSpring.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

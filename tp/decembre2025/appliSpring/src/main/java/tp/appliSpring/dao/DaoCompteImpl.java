@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import tp.appliSpring.entiy.Compte;
+import tp.appliSpring.entity.Compte;
 
 @Repository //@Component de type DAO
 @Transactional //en version spring
