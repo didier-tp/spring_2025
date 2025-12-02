@@ -45,7 +45,8 @@ public class ExempleConfigExplicite {
 	
 	
     @Bean
-    @Profile("minuscule")
+    //@Profile("minuscule")
+    @Profile("!majuscule")
     public Prefixeur prefixeurMin(){
         return new PrefixeurBasic(monPrefixe);
     }
