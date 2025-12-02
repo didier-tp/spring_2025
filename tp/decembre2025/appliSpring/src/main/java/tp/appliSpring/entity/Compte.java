@@ -25,7 +25,13 @@ public class Compte {
 	private String label;
 	
 	private Double solde;
-	
+
 	//+get/set, constructeur , .toString()
+	public Compte(Long numero, String label, Double solde) {
+		super();
+		this.numero = numero;
+		this.label = label;
+		this.solde = solde;
+	}
 
 }
