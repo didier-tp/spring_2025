@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
-import lombok.extern.slf4j.Slf4j;
 import tp.appliSpring.AppliSpringApplication;
 import tp.appliSpring.entity.Compte;
 
@@ -28,6 +28,7 @@ public class TestDaoCompte {
 	@Autowired
 	private DaoCompte daoCompte; //à tester
 	
+	/*
 	@Test
 	public void testAjoutEtRelecture() {
 		daoCompte.save(new Compte(null,"compteA",50.0));
@@ -37,5 +38,16 @@ public class TestDaoCompte {
 		assertTrue(comptes.size()>=2);
 		log.debug("comptes=" + comptes.toString());
 	}
+	*/
+	
+	@Test
+	@Sql({"/comptes.sql"}) //pour declencher le script comptes.sql placé dans src/test/resources
+	public void testAjoutEtRelecture() {
+				
+		List<Compte> comptes = daoCompte.findAll();
+		assertTrue(comptes.size()>=2);
+		log.debug("comptes=" + comptes.toString());
+	}
 
+	
 }
