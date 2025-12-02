@@ -1,10 +1,19 @@
 package tp.appliSpring.explicit.conf;
 
-import org.springframework.context.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
-import tp.appliSpring.explicit.beans.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
+import tp.appliSpring.explicit.beans.Encadreur;
+import tp.appliSpring.explicit.beans.EncadreurImpl;
+import tp.appliSpring.explicit.beans.Prefixeur;
+import tp.appliSpring.explicit.beans.PrefixeurBasic;
+import tp.appliSpring.explicit.beans.Suffixeur;
+import tp.appliSpring.explicit.beans.SuffixeurBasic;
 
 @Configuration
+@PropertySource("classpath:exemples.properties")
 public class ExempleConfigExplicite {
 
     //A faire en Tp:
@@ -21,10 +30,15 @@ public class ExempleConfigExplicite {
     //et vraiante ...Maj si présence du profile "maj"
     //tester le comportement en activant ou pas de profile "maj" en début de main()
 
-    private String monPrefixe="#";
+	@Value("${preferences.prefixe:#}")//avec # comme valeur par défaut
+	//@Value("${preferences.prefixe}") //sans valeur par défaut
+	private String monPrefixe;
+    //private String monPrefixe="#";
 
-
-    private String monSuffixe="#";
+	@Value("${preferences.suffixe:#}")//avec # comme valeur par défaut
+	//@Value("${preferences.suffixe}") //sans valeur par défaut
+	private String monSuffixe;
+    //private String monSuffixe="#";
 
     @Bean
     public Prefixeur prefixeur(){
