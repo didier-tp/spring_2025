@@ -50,7 +50,8 @@ public class TestCompteRepository {
 		daoCompte.save(new Compte(null,"compteC1",70.0));
 		daoCompte.save(new Compte(null,"compteD1",20.0));
 		
-		List<Compte> comptes = daoCompte.findBySoldeGreaterThanEqual(55.0);
+		//List<Compte> comptes = daoCompte.findBySoldeGreaterThanEqual(55.0);
+		List<Compte> comptes = daoCompte.rechercherSelonSoldeMini(55.0);
 		assertTrue(comptes.size()>=2);
 		log.debug("comptes avec solde > 55.0 =" + comptes.toString());
 	}
