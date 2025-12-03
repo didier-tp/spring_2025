@@ -69,11 +69,11 @@ public class CompteRestCtrl {
 	@GetMapping()
 	public List<Compte> getComptesByCriteria(
 			@RequestParam(value = "soldeMini", required = false) Double soldeMini,
-			@RequestParam(value = "numclient", required = false) Long numclient) {
+			@RequestParam(value = "numClient", required = false) Long numClient) {
 		if (soldeMini != null)
 			return serviceCompte.searchWithMinimumBalance(soldeMini);	
-		else if (numclient != null)
-			return serviceCompte.searchCustomerAccounts(numclient);
+		else if (numClient != null)
+			return serviceCompte.searchCustomerAccounts(numClient);
 		else
 			return serviceCompte.searchAll();
 	}
