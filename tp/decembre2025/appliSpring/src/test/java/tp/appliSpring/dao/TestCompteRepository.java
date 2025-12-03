@@ -31,12 +31,28 @@ public class TestCompteRepository {
 	
 	@Test
 	public void testAjoutEtRelecture() {
+		log.debug("classe du dao : " + daoCompte.getClass().getSimpleName());
+		
 		daoCompte.save(new Compte(null,"compteA",50.0));
 		daoCompte.save(new Compte(null,"compteB",60.0));
 		
 		List<Compte> comptes = daoCompte.findAll();
 		assertTrue(comptes.size()>=2);
 		log.debug("comptes=" + comptes.toString());
+	}
+	
+	@Test
+	public void testSoldeMini() {
+		log.debug("classe du dao : " + daoCompte.getClass().getSimpleName());
+		
+		daoCompte.save(new Compte(null,"compteA1",50.0));
+		daoCompte.save(new Compte(null,"compteB1",60.0));
+		daoCompte.save(new Compte(null,"compteC1",70.0));
+		daoCompte.save(new Compte(null,"compteD1",20.0));
+		
+		List<Compte> comptes = daoCompte.findBySoldeGreaterThanEqual(55.0);
+		assertTrue(comptes.size()>=2);
+		log.debug("comptes avec solde > 55.0 =" + comptes.toString());
 	}
 	
 	
