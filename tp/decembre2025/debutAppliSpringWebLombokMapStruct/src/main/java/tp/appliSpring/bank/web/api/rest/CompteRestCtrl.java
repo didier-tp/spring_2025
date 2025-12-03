@@ -65,10 +65,13 @@ public class CompteRestCtrl {
 	@GetMapping("/{id}")
 	public ResponseEntity<Compte> getCompteById(@PathVariable("id") long numeroCompte) {
 		Optional<Compte> optionalCompte =  serviceCompte.findById(numeroCompte);
+		/*
 		if(optionalCompte.isPresent())
 			return new ResponseEntity<Compte>(optionalCompte.get(),HttpStatus.OK);
 		else
 			return new ResponseEntity<Compte>(HttpStatus.NOT_FOUND);
+		*/
+		return ResponseEntity.of(optionalCompte);
 	}
 
 	// GET Multiple
