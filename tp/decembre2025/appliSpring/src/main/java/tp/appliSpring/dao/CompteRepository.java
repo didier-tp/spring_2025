@@ -17,8 +17,9 @@ public interface CompteRepository extends JpaRepository<Compte,Long>{
 	//méthode respectant convention de nommage findBy...GreaterThanEqual():
 	List<Compte> findBySoldeGreaterThanEqual(double soldeMini); //pas de besoin de @Query ici , SELECT généré depuis nom de méthode
 	
-	//@Query("SELECT c FROM Compte c WHERE c.solde >= ?1")//query par defaut en langage JPQL (JPA Query Langage)
+	//@Query("SELECT c FROM Compte c WHERE c.solde >= ?1")//query par defaut en langage JPQL (JPA Query Langage) avec nom classe java
 	@Query("SELECT c FROM Compte c WHERE c.solde >= :soldeMini")
+	//@Query(value="SELECT c.numero, c.label , c.solde FROM compte c WHERE c.solde >= :soldeMini",nativeQuery = true) //en pur SQL (avec nom table et de colonnes)
 	List<Compte> rechercherSelonSoldeMini(@Param("soldeMini") double soldeMini);
 	
 	//sera associé à @NamedQuery(name="Compte.searchBySoldeMini" , query"SELECT ...") placé sur entity.Compte
