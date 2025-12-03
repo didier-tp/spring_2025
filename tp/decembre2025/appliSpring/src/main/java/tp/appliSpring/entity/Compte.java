@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import lombok.ToString;
 
 @Getter @Setter @ToString @NoArgsConstructor
 @Entity
+@NamedQuery(name="Compte.searchBySoldeMini" , query="SELECT c FROM Compte c WHERE c.solde >= :soldeMini")
 //@Table(name="compte")
 public class Compte {
 	

@@ -21,6 +21,9 @@ public interface CompteRepository extends JpaRepository<Compte,Long>{
 	@Query("SELECT c FROM Compte c WHERE c.solde >= :soldeMini")
 	List<Compte> rechercherSelonSoldeMini(@Param("soldeMini") double soldeMini);
 	
+	//sera associé à @NamedQuery(name="Compte.searchBySoldeMini" , query"SELECT ...") placé sur entity.Compte
+	List<Compte> searchBySoldeMini(@Param("soldeMini") double soldeMini);
+	
    /*
     principales méthodes héritées:
     .save()
