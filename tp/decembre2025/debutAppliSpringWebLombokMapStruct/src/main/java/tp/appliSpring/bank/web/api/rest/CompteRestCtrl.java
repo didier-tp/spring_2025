@@ -1,6 +1,7 @@
 package tp.appliSpring.bank.web.api.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,7 @@ public class CompteRestCtrl {
 		this.serviceCompte = serviceCompte;
 	}
 
+	/*
 	// Get By ID
 	// V1 avec DTO et V3 (avec automatisme ExceptionHandler)
 	// declencher en mode GET avec
@@ -51,6 +53,7 @@ public class CompteRestCtrl {
 		return serviceCompte.searchById(numeroCompte);
 		// NB: l'objet retourné sera automatiquement converti au format json
 	}
+	*/
 
 	/*
 	 * //V2 avec ResponseEntity<?> mais sans ExceptionHandler
@@ -59,12 +62,21 @@ public class CompteRestCtrl {
 	 * 
 	 * @GetMapping("/{id}") ...
 	 */
+	@GetMapping("/{id}")
+	public ResponseEntity<Compte> getCompteById(@PathVariable("id") long numeroCompte) {
+		Optional<Compte> optionalCompte =  serviceCompte.findById(numeroCompte);
+		if(optionalCompte.isPresent())
+			return new ResponseEntity<Compte>(optionalCompte.get(),HttpStatus.OK);
+		else
+			return new ResponseEntity<Compte>(HttpStatus.NOT_FOUND);
+	}
 
 	// GET Multiple
 	// http://localhost:8181/appliSpring/rest/api-bank/v1/comptes
 	// http://localhost:8181/appliSpring/rest/api-bank/v1/comptes?soldeMini=50
 
 	// http://localhost:8181/appliSpring/rest/api-bank/v1/comptes?numClient=1
+	
 	// http://localhost:8181/appliSpring/rest/api-bank/v1/comptes?soldeMini=50&critere2=val2&critere3=val3
 	@GetMapping()
 	public List<Compte> getComptesByCriteria(
