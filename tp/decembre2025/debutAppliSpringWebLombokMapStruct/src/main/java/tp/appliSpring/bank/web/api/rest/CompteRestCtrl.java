@@ -43,7 +43,7 @@ public class CompteRestCtrl {
 		this.serviceCompte = serviceCompte;
 	}
 
-	/*
+	
 	// Get By ID
 	// V1 avec DTO et V3 (avec automatisme ExceptionHandler)
 	// declencher en mode GET avec
@@ -53,7 +53,7 @@ public class CompteRestCtrl {
 		return serviceCompte.searchById(numeroCompte);
 		// NB: l'objet retourné sera automatiquement converti au format json
 	}
-	*/
+
 
 	/*
 	 * //V2 avec ResponseEntity<?> mais sans ExceptionHandler
@@ -62,17 +62,18 @@ public class CompteRestCtrl {
 	 * 
 	 * @GetMapping("/{id}") ...
 	 */
-	@GetMapping("/{id}")
-	public ResponseEntity<Compte> getCompteById(@PathVariable("id") long numeroCompte) {
-		Optional<Compte> optionalCompte =  serviceCompte.findById(numeroCompte);
-		/*
-		if(optionalCompte.isPresent())
-			return new ResponseEntity<Compte>(optionalCompte.get(),HttpStatus.OK);
-		else
-			return new ResponseEntity<Compte>(HttpStatus.NOT_FOUND);
-		*/
-		return ResponseEntity.of(optionalCompte);
-	}
+	
+//	@GetMapping("/{id}")
+//	public ResponseEntity<Compte> getCompteById(@PathVariable("id") long numeroCompte) {
+//		Optional<Compte> optionalCompte =  serviceCompte.findById(numeroCompte);
+//		/*
+//		if(optionalCompte.isPresent())
+//			return new ResponseEntity<Compte>(optionalCompte.get(),HttpStatus.OK);
+//		else
+//			return new ResponseEntity<Compte>(HttpStatus.NOT_FOUND);
+//		*/
+//		return ResponseEntity.of(optionalCompte);
+//	}
 
 	// GET Multiple
 	// http://localhost:8181/appliSpring/rest/api-bank/v1/comptes
