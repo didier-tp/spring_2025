@@ -102,7 +102,7 @@ public class CompteRestCtrl {
 	public ResponseEntity<?> postXyz(/* @Valid */ @RequestBody Compte compte) {
 		Compte savedCompte = serviceCompte.create(compte); // avec id auto_incrémenté
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(savedCompte.getNumero()).toUri();
+				.buildAndExpand(savedCompte.getNumero()).toUri(); 
 		// return ResponseEntity.created(location).build();
 		// return 201/CREATED , no body but URI to find added obj
 		return ResponseEntity.created(location).body(savedCompte);
