@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -126,5 +127,10 @@ public class CompteRestCtrl {
 
 	// http://localhost:8181/appliSpring/rest/api-bank/v1/comptes/1 ou 2
 	// @DeleteMapping("/{id}")
-	// ....
+	@DeleteMapping("/{id}")
+	public ResponseEntity< ?> deleteDeviseByCode(@PathVariable("id")Long idCompteToDelete){
+		serviceCompte.removeById(idCompteToDelete);
+		//return new ResponseEntity< ?>(HttpStatus.NO_CONTENT);
+	    return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); 
+	}
 }
