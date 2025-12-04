@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jakarta.validation.Valid;
 import tp.appliSpring.bank.core.model.Compte;
 import tp.appliSpring.bank.core.service.ServiceCompte;
+import tp.appliSpring.bank.web.api.dto.CompteToCreate;
 
 @RestController // @Component de type controller d'api rest
 @RequestMapping(value = "/rest/api-bank/v1/comptes", headers = "Accept=application/json")
@@ -99,7 +101,7 @@ public class CompteRestCtrl {
 	// avec dans la partie "body" de la requête
 	// { "numero" : null , "label" : "comptequiVaBien" , "solde" : 50.0 }
 	@PostMapping("")
-	public ResponseEntity<?> postXyz(/* @Valid */ @RequestBody Compte compte) {
+	public ResponseEntity<?> postCompte(@Valid @RequestBody CompteToCreate compte) {
 		Compte savedCompte = serviceCompte.create(compte); // avec id auto_incrémenté
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(savedCompte.getNumero()).toUri(); 
