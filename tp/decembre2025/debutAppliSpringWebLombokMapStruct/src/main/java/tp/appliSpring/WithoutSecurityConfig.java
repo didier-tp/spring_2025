@@ -16,7 +16,7 @@ public class WithoutSecurityConfig {
 		return http.securityMatcher("/**")
 		    .authorizeHttpRequests(
 				auth -> auth.requestMatchers("/**").permitAll()
-						                                 .requestMatchers("/h2-console/**").permitAll()
+						    .requestMatchers("/h2-console/**").permitAll()
 				)
 		  .cors( Customizer.withDefaults() )
 		  .headers(headers -> headers.frameOptions(

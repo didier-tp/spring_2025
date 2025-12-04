@@ -7,8 +7,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-
+@Aspect
 @Profile("perf")
+@Component
 public class MyPerfLogAspect {
 
 	@Pointcut("execution(* tp.appliSpring.exemple.*.*(..))")

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,6 +15,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -40,17 +42,18 @@ public class SecurityConfigForRest {
 
 	private HttpSecurity restFilterChainBuilder(HttpSecurity http) throws Exception {
 
-		return null;
-        /*
-        A COMPLETER EN TP
-        avec permitAll sur GET /rest/api-bank/v1/comptes/**
-        avec permitAll sur /rest/api-auth/v1/standalone-jwt-auth
-        avec authenticated() sur les autres /rest/**
-        avec sessionManagement stateless
-        et avec csrf disabled
-        et avec CORS par défaut
-
-         */
+		return http.securityMatcher("/rest/**")
+				.authorizeHttpRequests(
+						auth -> auth
+								.requestMatchers(HttpMethod.GET, "/rest/api-bank/v1/comptes/**").permitAll()
+								.requestMatchers("/rest/api-auth/v1/standalone-jwt-auth").permitAll()
+								//.requestMatchers(HttpMethod.DELETE,"/rest/api-bank/comptes/**").hasRole("ADMIN") ou bien @PreAuthorize("hasRole('ADMIN')") dans la classe CompteRestCtrl
+								.requestMatchers("/rest/**").authenticated()
+				)
+				.cors(Customizer.withDefaults())
+				.csrf(csrf -> csrf.disable()) //important to get 401/Unauthorized
+				.sessionManagement(sM ->
+						sM.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); //important to get 401/Unauthorized
 
 	}
 
